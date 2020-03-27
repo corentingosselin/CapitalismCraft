@@ -1,6 +1,7 @@
 package fr.cocoraid.capitalismcraft.listeners;
 
 import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
+import fr.cocoraid.capitalismcraft.utils.Utils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Animals;
@@ -41,11 +42,11 @@ public class KillRewardEvent implements Listener {
         if(e.getEntity() instanceof Monster) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, 50 + 1);
             EconomyBridge.giveMoney(killer, randomNum);
-            killer.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("§2+" + randomNum + " $" ));
+            Utils.sendActionBar(killer,"§2+" + randomNum + " $");
         } else if(e.getEntity() instanceof Animals) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, 20 + 1);
             EconomyBridge.giveMoney(killer, randomNum);
-            killer.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("§2+" + randomNum + " $" ));
+            Utils.sendActionBar(killer,"§2+" + randomNum + " $" );
         }
 
     }
