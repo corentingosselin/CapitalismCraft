@@ -19,16 +19,17 @@ public class KillRewardEvent implements Listener {
     @EventHandler
     public void reward(PlayerDeathEvent e) {
         Player dead = e.getEntity();
+        if(dead.hasMetadata("NPC")) return;
         Player killer = e.getEntity().getKiller();
         if(killer instanceof Player) {
             if(killer.hasPermission("cc.reward.mercenary")) {
                 int randomNum = ThreadLocalRandom.current().nextInt(2000, 6000 + 1);
                 EconomyBridge.giveMoney(killer, randomNum);
-                killer.sendMessage("&bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
+                killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
             } else {
                 int randomNum = ThreadLocalRandom.current().nextInt(300, 3000 + 1);
                 EconomyBridge.giveMoney(killer, randomNum);
-                killer.sendMessage("&bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
+                killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
 
             }
         }
