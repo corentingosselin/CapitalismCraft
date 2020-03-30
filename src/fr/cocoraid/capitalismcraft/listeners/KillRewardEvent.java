@@ -20,6 +20,7 @@ public class KillRewardEvent implements Listener {
     public void reward(PlayerDeathEvent e) {
         Player dead = e.getEntity();
         if(dead.hasMetadata("NPC")) return;
+        if(e.getEntity().getKiller().hasMetadata("NPC")) return;
         Player killer = e.getEntity().getKiller();
         if(killer instanceof Player) {
             if(killer.hasPermission("cc.reward.mercenary")) {
