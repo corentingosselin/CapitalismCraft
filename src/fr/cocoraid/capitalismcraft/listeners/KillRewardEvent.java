@@ -2,8 +2,6 @@ package fr.cocoraid.capitalismcraft.listeners;
 
 import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
 import fr.cocoraid.capitalismcraft.utils.Utils;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -23,14 +21,21 @@ public class KillRewardEvent implements Listener {
         if(e.getEntity().getKiller().hasMetadata("NPC")) return;
         Player killer = e.getEntity().getKiller();
         if(killer instanceof Player) {
-            if(killer.hasPermission("cc.reward.mercenary")) {
-                int randomNum = ThreadLocalRandom.current().nextInt(2000, 6000 + 1);
-                EconomyBridge.giveMoney(killer, randomNum);
-                killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
+            if(killer.hasPermission("cc.mercenaire")) {
+                int randomNum = ThreadLocalRandom.current().nextInt(500, 6000 + 1);
+                if(EconomyBridge.takeMoneySilent(killer, randomNum)) {
+                    dead.sendMessage("§cVous perdez §2" + randomNum + " §c$ pour avoir été tué par §3" + dead.getName());
+                    EconomyBridge.giveMoney(killer, randomNum);
+                    killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
+                }
+
             } else {
-                int randomNum = ThreadLocalRandom.current().nextInt(300, 3000 + 1);
-                EconomyBridge.giveMoney(killer, randomNum);
-                killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
+                int randomNum = ThreadLocalRandom.current().nextInt(0, 3000 + 1);
+                if(EconomyBridge.takeMoneySilent(killer, randomNum)) {
+                    dead.sendMessage("§cVous perdez §2" + randomNum + " §c$ pour avoir été tué par §3" + dead.getName());
+                    EconomyBridge.giveMoney(killer, randomNum);
+                    killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
+                }
 
             }
         }

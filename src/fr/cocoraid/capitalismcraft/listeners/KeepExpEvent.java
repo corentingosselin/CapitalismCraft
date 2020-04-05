@@ -10,7 +10,7 @@ public class KeepExpEvent implements Listener {
     @EventHandler
     public void death(PlayerDeathEvent e) {
         Player p = e.getEntity();
-        if(p.hasPermission("cc.keepexp")) {
+        if(p.hasPermission("cc.empereur")) {
             e.setKeepLevel(true);
         }
     }
