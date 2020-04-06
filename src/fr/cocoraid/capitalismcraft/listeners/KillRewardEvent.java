@@ -23,7 +23,7 @@ public class KillRewardEvent implements Listener {
         if(killer instanceof Player) {
             if(killer.hasPermission("cc.mercenaire")) {
                 int randomNum = ThreadLocalRandom.current().nextInt(500, 6000 + 1);
-                if(EconomyBridge.takeMoneySilent(killer, randomNum)) {
+                if(EconomyBridge.takeMoneySilent(dead, randomNum)) {
                     dead.sendMessage("§cVous perdez §2" + randomNum + " §c$ pour avoir été tué par §3" + dead.getName());
                     EconomyBridge.giveMoney(killer, randomNum);
                     killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());
@@ -31,7 +31,7 @@ public class KillRewardEvent implements Listener {
 
             } else {
                 int randomNum = ThreadLocalRandom.current().nextInt(0, 3000 + 1);
-                if(EconomyBridge.takeMoneySilent(killer, randomNum)) {
+                if(EconomyBridge.takeMoneySilent(dead, randomNum)) {
                     dead.sendMessage("§cVous perdez §2" + randomNum + " §c$ pour avoir été tué par §3" + dead.getName());
                     EconomyBridge.giveMoney(killer, randomNum);
                     killer.sendMessage("§bVous recevez §2" + randomNum + " §b$ pour avoir tué §3" + dead.getName());

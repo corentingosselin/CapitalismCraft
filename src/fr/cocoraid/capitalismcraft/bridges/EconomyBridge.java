@@ -81,7 +81,7 @@ public class EconomyBridge {
 		if (!hasValidEconomy()) return false;
 		if (amount < 0.0) return false;
 
-		EconomyResponse response = economy.withdrawPlayer(player.getName(), player.getWorld().getName(), amount);
+		EconomyResponse response = economy.withdrawPlayer(player, player.getWorld().getName(), amount);
 		boolean result = response.transactionSuccess();
 
 
