@@ -3,15 +3,13 @@ package fr.cocoraid.capitalismcraft;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
 import fr.cocoraid.capitalismcraft.bridges.WorldGuardBridge;
-import fr.cocoraid.capitalismcraft.listeners.KeepExpEvent;
-import fr.cocoraid.capitalismcraft.listeners.KillRewardEvent;
-import fr.cocoraid.capitalismcraft.listeners.MonstersIgnoreEvent;
+import fr.cocoraid.capitalismcraft.listeners.JoinLeaveEvent;
 import fr.cocoraid.capitalismcraft.listeners.NaturalSpawnEvent;
 import fr.cocoraid.capitalismcraft.timeismoney.TimeIsMoney;
-import fr.cocoraid.capitalismcraft.tools.hammer.HammerManager;
-import fr.cocoraid.capitalismcraft.utils.Utils;
+import fr.cocoraid.capitalismcraft.utils.Cuboid;
+import fr.cocoraid.capitalismcraft.warzone.Safezone;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -37,14 +35,15 @@ public class CapitalismCraft extends JavaPlugin {
             this.worldGuardBridge = new WorldGuardBridge(this, (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard"));
         }
 
+        //set pvp area cuboid
+        Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("build"),31,52,41,0,0),
+                new Location(Bukkit.getWorld("build"),-30,74,136,0,0) ));
         new TimeIsMoney(this);
-        new HammerManager(this).setup();
 
 
-        Bukkit.getPluginManager().registerEvents(new MonstersIgnoreEvent(),this);
-        Bukkit.getPluginManager().registerEvents(new KeepExpEvent(),this);
+        Bukkit.getPluginManager().registerEvents(new JoinLeaveEvent(this),this);
         Bukkit.getPluginManager().registerEvents(new NaturalSpawnEvent(),this);
-        Bukkit.getPluginManager().registerEvents(new KillRewardEvent(),this);
+
     }
 
 

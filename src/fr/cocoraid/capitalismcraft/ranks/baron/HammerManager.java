@@ -1,4 +1,4 @@
-package fr.cocoraid.capitalismcraft.tools.hammer;
+package fr.cocoraid.capitalismcraft.ranks.baron;
 
 import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import org.bukkit.Bukkit;
@@ -15,6 +15,7 @@ public class HammerManager {
 
     private ItemStack hammer =  new ItemStack(Material.STONE_AXE);
     {
+        hammer.addUnsafeEnchantment(Enchantment.MENDING,1);
         hammer.addUnsafeEnchantment(Enchantment.DURABILITY,10);
         ItemMeta meta = hammer.getItemMeta();
         meta.setDisplayName("§cLe marteau du Baron");

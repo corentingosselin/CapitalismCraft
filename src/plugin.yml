@@ -3,6 +3,7 @@ version: 1.0
 author: cocoraid
 main: fr.cocoraid.capitalismcraft.CapitalismCraft
 api-version: 1.13
-softdepend: [Multiverse-Core,Vault,EssentialsX, WorldGuard, WorldEdit]
+depend: [Multiverse-Core]
+softdepend: [Vault,EssentialsX, WorldGuard, WorldEdit]
 commands:
   cc:
