@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Safezone extends BukkitRunnable {
 
 
-    private static List<UUID> entered = new ArrayList<>();
+    private static List<UUID> enteredPVPZonePlayers = new ArrayList<>();
     private static Cuboid cuboid;
 
 
@@ -22,14 +22,14 @@ public class Safezone extends BukkitRunnable {
         if(!Bukkit.getOnlinePlayers().isEmpty() && cuboid != null) {
 
             Bukkit.getOnlinePlayers().stream().filter(cur -> cur.getWorld().equals(cuboid.world)).forEach(cur -> {
-                if(cuboid.isIn(cur.getLocation()) && !entered.contains(cur.getUniqueId())) {
-                    entered.add(cur.getUniqueId());
+                if(cuboid.isIn(cur.getLocation()) && !enteredPVPZonePlayers.contains(cur.getUniqueId())) {
+                    enteredPVPZonePlayers.add(cur.getUniqueId());
                     EnterWarzoneEvent event = new EnterWarzoneEvent(cur);
                     Bukkit.getPluginManager().callEvent(event);
                 }
 
-                if(!cuboid.isIn(cur.getLocation()) && entered.contains(cur.getUniqueId())) {
-                    entered.remove(cur.getUniqueId());
+                if(!cuboid.isIn(cur.getLocation()) && enteredPVPZonePlayers.contains(cur.getUniqueId())) {
+                    enteredPVPZonePlayers.remove(cur.getUniqueId());
                     EnterSafezoneEvent event = new EnterSafezoneEvent(cur);
                     Bukkit.getPluginManager().callEvent(event);
 
@@ -39,8 +39,8 @@ public class Safezone extends BukkitRunnable {
         }
     }
 
-    public static List<UUID> getEntered() {
-        return entered;
+    public static List<UUID> getEnteredPVPZonePlayers() {
+        return enteredPVPZonePlayers;
     }
 
     public static void setCuboid(Cuboid cuboid) {

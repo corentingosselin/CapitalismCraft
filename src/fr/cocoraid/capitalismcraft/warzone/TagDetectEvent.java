@@ -20,6 +20,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class TagDetectEvent implements Listener {
 
 
+    /*
+    damager obtient slowness en quittant la zone
+on peut taper avec la flèche depuis la zone
+Afficher un msg quand on entre dans la zone pop
+le message, vous entrez en mode pvp s’affiche tous les x temps
+     */
+
     private String world = "build";
 
     private CapitalismCraft instance;
@@ -54,7 +61,7 @@ public class TagDetectEvent implements Listener {
             CapitalistPlayer victimCapitalist = CapitalistPlayer.getCapitalistPlayer(victim);
             CapitalistPlayer damagerCapitalist = CapitalistPlayer.getCapitalistPlayer(damager);
             //Prevent victim to be damaged by a player if safe zone or without kit :)
-            if((!victimCapitalist.isTagged() && Safezone.getEntered().contains(victim.getUniqueId()))) {
+            if((!victimCapitalist.isTagged() && !Safezone.getEnteredPVPZonePlayers().contains(victim.getUniqueId()))) {
                 e.setCancelled(true);
                 return;
             }
@@ -111,7 +118,7 @@ public class TagDetectEvent implements Listener {
                         tagged.setTagged(false);
 
                         //si encore dans la zone
-                        if (Safezone.getEntered().contains(p.getUniqueId())) {
+                        if (Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
 
 
                         } else {

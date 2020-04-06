@@ -8,6 +8,7 @@ import fr.cocoraid.capitalismcraft.listeners.NaturalSpawnEvent;
 import fr.cocoraid.capitalismcraft.timeismoney.TimeIsMoney;
 import fr.cocoraid.capitalismcraft.utils.Cuboid;
 import fr.cocoraid.capitalismcraft.warzone.Safezone;
+import fr.cocoraid.capitalismcraft.warzone.TagDetectEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -38,11 +39,17 @@ public class CapitalismCraft extends JavaPlugin {
         //set pvp area cuboid
         Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("build"),31,52,41,0,0),
                 new Location(Bukkit.getWorld("build"),-30,74,136,0,0) ));
+
+        Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
         new TimeIsMoney(this);
 
 
         Bukkit.getPluginManager().registerEvents(new JoinLeaveEvent(this),this);
         Bukkit.getPluginManager().registerEvents(new NaturalSpawnEvent(),this);
+
+        Bukkit.getOnlinePlayers().forEach(cur -> {
+            new CapitalistPlayer(cur);
+        });
 
     }
 
@@ -50,6 +57,10 @@ public class CapitalismCraft extends JavaPlugin {
     @Override
     public void onDisable() {
         super.onDisable();
+
+        Bukkit.getOnlinePlayers().forEach(cur -> {
+            CapitalistPlayer.getCapitalistPlayers().remove(cur.getUniqueId());
+        });
     }
 
     public WorldGuardBridge getWorldGuardBridge() {
