@@ -99,6 +99,14 @@ public class Utils {
     }
 
     /**
+     * Util convert
+     * @return f
+     */
+    public static byte toPackedByte(float f) {
+        return (byte) ((int) (f * 256.0F / 360.0F));
+    }
+
+    /**
      * Vecteur qui s'update autour de l'axe X avec un angle
      * @param v
      * @param angle

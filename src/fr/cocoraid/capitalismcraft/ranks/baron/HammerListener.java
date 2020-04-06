@@ -1,7 +1,6 @@
-package fr.cocoraid.capitalismcraft.tools.hammer;
+package fr.cocoraid.capitalismcraft.ranks.baron;
 
 import fr.cocoraid.capitalismcraft.utils.Utils;
-import fr.cocoraid.capitalismcraft.utils.nms.Reflection;
 import me.konsolas.aac.api.HackType;
 import me.konsolas.aac.api.PlayerViolationEvent;
 import org.bukkit.Bukkit;
@@ -9,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemMendEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,6 +32,36 @@ public class HammerListener implements Listener {
 
     private Map<UUID, Long> cooldown = new HashMap<>();
     private List<UUID> ignore = new ArrayList<>();
+
+
+
+
+    @EventHandler
+    public void mending(PlayerItemMendEvent e) {
+        ItemStack item = e.getItem();
+        if(Utils.isSmilar(item, manager.getHammer())) {
+            e.setCancelled(true);
+            int addDurability = e.getRepairAmount() * 10;
+            //130
+            int maxDurability = item.getType().getMaxDurability();
+
+            ItemMeta meta = item.getItemMeta();
+            if (!(meta instanceof Damageable)) return;
+            Damageable damageable = (Damageable) meta;
+
+            String crypted = meta.getLore().get(1).replace("Durabilité: ","");
+            int cur = Integer.valueOf(crypted.split("/")[0]);
+            cur+=addDurability;
+
+            int damage = cur * maxDurability / 10000;
+            ((Damageable) meta).setDamage(maxDurability - damage);
+
+            List<String> lores = meta.getLore();
+            lores.set(1,"Durabilité: " + String.valueOf(cur) + "/10000");
+            meta.setLore(lores);
+            item.setItemMeta(meta);
+        }
+    }
 
 
     private List<Block> blocks = new ArrayList<>();

@@ -1,11 +1,11 @@
-package fr.cocoraid.capitalismcraft.listeners;
+package fr.cocoraid.capitalismcraft.ranks.empereur;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 
-public class MonstersIgnoreEvent implements Listener {
+public class MonstersIgnoreListener implements Listener {
 
     @EventHandler
     public void mobIgnore(EntityTargetLivingEntityEvent e) {
