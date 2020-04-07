@@ -9,6 +9,8 @@ import java.util.UUID;
 public class CapitalistPlayer {
 
 
+
+
     private static Map<UUID, CapitalistPlayer> capitalistPlayers = new HashMap();
     private boolean tagged;
     private boolean recentHit;
