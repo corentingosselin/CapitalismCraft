@@ -36,7 +36,7 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
 
 
     //Call this method inside damage entity event if they are both inside the pvp area
-    // don't forget to remove the player from
+    // don't forget to remove the player from the map when slowness added
     // key = player to slow, value = last damager
     private Map<UUID,UUID> playersToSlow = new HashMap<>();
     public void updatePlayerToSlow(Player damager, Player damaged) {
@@ -90,9 +90,7 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
     //Toucher quelqu'un de taggué vous taggue
     //toucher quelqu'un dans l'arène vous taggue et tag l'autre joueur
 
-
-    public void tagPlayer(Player player, boolean silent) {
-
+   public void tagPlayer(Player player, boolean resend) {
         CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(player);
 
         new BukkitRunnable() {
@@ -106,17 +104,6 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
                         tagged.setRecentHit(false);
                         tagged.setTagged(false);
 
-                        //si encore dans la zone
-                        if (Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
-
-
-                        } else {
-                            //OldSchoolPvp.getInstance().getNametag().setPvpTeam(p);
-                        }
-
-                        if (!silent) {
-                            Utils.sendActionBar(p, ChatColor.AQUA + " Vous n'êtes plus en pvp ");
-                        }
                     }
                 }
             }.
@@ -134,6 +121,13 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
             Player p = (Player) e.getEntity();
             if(Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
 
+                if(e.getDamager() instanceof Player) {
+                    Player victim = (Player) e.getDamager();
+                    //si les 2 sont dans la zone pvp
+                    if (Safezone.getEnteredPVPZonePlayers().contains(victim.getUniqueId())) {
+                        updatePlayerToSlow(p, victim);
+                    }
+                }
 
 
                 //prevent arrow damage outside
@@ -148,6 +142,15 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
             }
         }
     }
+
+    @EventHandler
+    public void enterSafe(EnterSafezoneEvent e) {
+        if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
+            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20 * 3, 3, true,true));
+            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ITEM_BREAK,1,0);
+        }
+    }
+
 
     //prevent teleport when tagged
     @EventHandler(priority = EventPriority.LOWEST)

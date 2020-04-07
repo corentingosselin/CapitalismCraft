@@ -5,6 +5,7 @@ import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
 import fr.cocoraid.capitalismcraft.bridges.WorldGuardBridge;
 import fr.cocoraid.capitalismcraft.listeners.JoinLeaveEvent;
 import fr.cocoraid.capitalismcraft.listeners.NaturalSpawnEvent;
+import fr.cocoraid.capitalismcraft.ranks.RankRegisterer;
 import fr.cocoraid.capitalismcraft.timeismoney.TimeIsMoney;
 import fr.cocoraid.capitalismcraft.utils.Cuboid;
 import fr.cocoraid.capitalismcraft.warzone.Safezone;
@@ -42,6 +43,7 @@ public class CapitalismCraft extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
         new TimeIsMoney(this);
+        new RankRegisterer(this);
 
 
         Bukkit.getPluginManager().registerEvents(new JoinLeaveEvent(this),this);
