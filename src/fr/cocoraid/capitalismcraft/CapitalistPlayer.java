@@ -14,6 +14,7 @@ public class CapitalistPlayer {
     private static Map<UUID, CapitalistPlayer> capitalistPlayers = new HashMap();
     private boolean tagged;
     private boolean recentHit;
+    private Player lastDamager;
     private Player p;
     public CapitalistPlayer(Player p) {
         this.p = p;
@@ -28,7 +29,17 @@ public class CapitalistPlayer {
         return recentHit;
     }
 
+    public Player getLastDamager() {
+        return lastDamager;
+    }
 
+    public void setLastDamager(Player lastDamager) {
+        this.lastDamager = lastDamager;
+    }
+
+    public boolean hasLastDamager() {
+        return lastDamager != null;
+    }
 
     public static CapitalistPlayer getCapitalistPlayer(Player p) {
         if(capitalistPlayers.containsKey(p.getUniqueId())) return capitalistPlayers.get(p.getUniqueId());

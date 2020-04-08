@@ -4,7 +4,8 @@ import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import fr.cocoraid.capitalismcraft.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.utils.Utils;
 import fr.cocoraid.capitalismcraft.warzone.event.EnterSafezoneEvent;
-import org.bukkit.ChatColor;
+import fr.cocoraid.capitalismcraft.warzone.event.EnterWarzoneEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -13,33 +14,26 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.inventivetalent.glow.GlowAPI;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TagDetectEvent implements Listener {
-
-
-    /*
-    damager obtient slowness en quittant la zone
-on peut taper avec la flèche depuis la zone
-Afficher un msg quand on entre dans la zone pop
-le message, vous entrez en mode pvp s’affiche tous les x temps
-     */
-
 
 
     //Call this method inside damage entity event if they are both inside the pvp area
     // don't forget to remove the player from the map when slowness added
     // key = player to slow, value = last damager
     private Map<UUID,UUID> playersToSlow = new HashMap<>();
-    public void updatePlayerToSlow(Player damager, Player damaged) {
+    public void updatePlayerToSlow(Player damaged, Player damager) {
         //add player to slow down when leave the area
         playersToSlow.put(damaged.getUniqueId(),damager.getUniqueId());
         //check if the damager was not a previous damaged from this victim player
@@ -50,7 +44,7 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
 
 
 
-    private String world = "build";
+    private String world = "world";
 
     private CapitalismCraft instance;
     public TagDetectEvent(CapitalismCraft instance) {
@@ -60,21 +54,8 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
     }
 
 
-
-    //ETAPE 1
-    // Activer le pvp dans la zone pvp
-
-    //ETAPE 2
-    //Si le joueur est tagué et qu'il a un damager récent (moins de 6 secondes) et qu'il sort alors on lui afflige slowness
-
-    //ETAPE 3
-    //On supprime le tag au bout de 10 secondes
-    //On relance la task de suppression du tag en silence si le joueur est toujours tagué au bout des 10 secondes
-
-
-
     //autoriser tous les damages, si le damaged est à l'intérieur
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void damage(EntityDamageEvent e) {
         if(!e.getEntity().getWorld().getName().equalsIgnoreCase(world)) return;
         if(e.getEntity() instanceof Player) {
@@ -87,49 +68,70 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
     }
 
 
-    //Toucher quelqu'un de taggué vous taggue
-    //toucher quelqu'un dans l'arène vous taggue et tag l'autre joueur
+    public List<Player> getAllPlayersInSafeZone() {
+        return Bukkit.getOnlinePlayers().stream().filter(cur ->  cur.getWorld().getName().equalsIgnoreCase(world))
+                .filter(cur -> !Safezone.getEnteredPVPZonePlayers().contains(cur.getUniqueId())).collect(Collectors.toList());
+    }
 
-   public void tagPlayer(Player player, boolean resend) {
+
+    public void tagPlayer(Player player, boolean resend) {
         CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(player);
+        cp.setTagged(true);
+        if(!resend) {
+            //si le joueur est à l'extérieur il devient rouge pour tous les joueurs en dehors de la zone pvp
+            if(!Safezone.getEnteredPVPZonePlayers().contains(player.getUniqueId()))
+                GlowAPI.setGlowingAsync(player, GlowAPI.Color.RED, getAllPlayersInSafeZone());
 
-        new BukkitRunnable() {
-            public void run() {
-                if (player.isOnline()) {
-                    if (cp.isTagged()) {
-                        if (cp.hasRecentHit()) {
-                            tagPlayer(player, true);
-                            return;
-                        }
-                        tagged.setRecentHit(false);
-                        tagged.setTagged(false);
-
-                    }
-                }
-            }.
-
-            runTaskLater(instance, 20*20);
+            Utils.sendActionBar(player,"§cVous êtes désormais en mode pvp !");
         }
+
+        //maybe could be async
+        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, () -> {
+            if (player.isOnline()) {
+                if (cp.isTagged()) {
+                    if (cp.hasRecentHit()) {
+                        tagPlayer(player, true);
+                        return;
+                    }
+                    cp.setRecentHit(false);
+                    cp.setTagged(false);
+                    playersToSlow.remove(player.getUniqueId());
+                    Utils.sendActionBar(player,"§bVous n'êtes plus en mode pvp !");
+                    GlowAPI.setGlowingAsync(player,false, Bukkit.getOnlinePlayers());
+
+                }
+            }
+        }, 20 * 20);
+
     }
 
 
     //interdir les flèches provenant de l'exterieur
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void damageOut(EntityDamageByEntityEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void damageOther(EntityDamageByEntityEvent e) {
         if(!e.getEntity().getWorld().getName().equalsIgnoreCase(world)) return;
         if(e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            if(Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
+            CapitalistPlayer victimCapitalist = CapitalistPlayer.getCapitalistPlayer(p);
 
+            if(Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
                 if(e.getDamager() instanceof Player) {
-                    Player victim = (Player) e.getDamager();
+                    Player damager = (Player) e.getDamager();
                     //si les 2 sont dans la zone pvp
-                    if (Safezone.getEnteredPVPZonePlayers().contains(victim.getUniqueId())) {
-                        updatePlayerToSlow(p, victim);
+                    if (Safezone.getEnteredPVPZonePlayers().contains(damager.getUniqueId())) {
+                        e.setCancelled(false);
+                        updatePlayerToSlow(p, damager);
+                        CapitalistPlayer damagerCapitalist = CapitalistPlayer.getCapitalistPlayer(damager);
+                        //and tag the both
+                        if(!victimCapitalist.isTagged())
+                            tagPlayer(p,false);
+                        if(!damagerCapitalist.isTagged())
+                            tagPlayer(damager,false);
+                    } else {
+                        //prevent damager to hit from outside
+                        e.setCancelled(true);
                     }
                 }
-
-
                 //prevent arrow damage outside
                 if(e.getDamager() instanceof Arrow) {
                     Arrow arrow = (Arrow) e.getDamager();
@@ -139,18 +141,88 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
                             e.setCancelled(true);
                     }
                 }
+            } else {
+                //if victim outside the pvp
+
+                if(e.getDamager() instanceof Player) {
+                    //tag damager if victim is tagged (check everywhere)
+                    if(victimCapitalist.isTagged()) {
+                        e.setCancelled(false);
+                        tagPlayer(((Player)e.getDamager()),false);
+                    }
+                } else if(e.getDamager() instanceof Arrow) {
+                    Arrow arrow = (Arrow) e.getDamager();
+                    if(arrow.getShooter() instanceof Player) {
+                        Player damager = (Player) arrow.getShooter();
+                        if(!victimCapitalist.isTagged()) {
+                            e.setCancelled(false);
+                            tagPlayer(damager, false);
+                        }
+                    }
+                }
+
             }
+
+
+            //update recent hit
+            if(e.getDamager() instanceof Player) {
+                Player damager = (Player) e.getDamager();
+                CapitalistPlayer damagerCapitalist = CapitalistPlayer.getCapitalistPlayer(damager);
+                if(victimCapitalist.isTagged())
+                    victimCapitalist.setRecentHit(true);
+                if(damagerCapitalist.isTagged())
+                    damagerCapitalist.setRecentHit(true);
+            } else if(e.getDamager() instanceof Arrow) {
+                Arrow arrow = (Arrow) e.getDamager();
+                if(arrow.getShooter() instanceof Player) {
+                    Player damager = (Player) arrow.getShooter();
+                    if(CapitalistPlayer.getCapitalistPlayer(damager).isTagged())
+                        CapitalistPlayer.getCapitalistPlayer(damager).setRecentHit(true);
+                }
+            }
+
+
         }
     }
 
     @EventHandler
-    public void enterSafe(EnterSafezoneEvent e) {
+    public void exitPVP(EnterSafezoneEvent e) {
+      List<Player> list = new ArrayList<>();
+
+        CapitalistPlayer.getCapitalistPlayers().values().stream()
+                .filter(cp -> cp.isTagged() && Safezone.getEnteredPVPZonePlayers().contains(cp.getPlayer().getUniqueId()))
+                .forEach(cp -> list.add(cp.getPlayer()));
+        if(!list.isEmpty()) {
+            GlowAPI.setGlowingAsync(list, GlowAPI.Color.RED, e.getPlayer());
+        }
+
+        //si le joueur a été touché
         if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
-            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20 * 3, 3, true,true));
-            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ITEM_BREAK,1,0);
+            GlowAPI.setGlowingAsync(e.getPlayer(), GlowAPI.Color.RED, getAllPlayersInSafeZone());
+            //reset the damaged
+            if(playersToSlow.containsKey(e.getPlayer().getUniqueId())) {
+                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 5, 3, true, true));
+                e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 0);
+                Utils.sendActionBar(e.getPlayer(),"§6Ne tentez pas de vous échapper pendant un combat !");
+                UUID damagerUUID = playersToSlow.get(e.getPlayer().getUniqueId());
+                if(Bukkit.getPlayer(damagerUUID) != null && Bukkit.getPlayer(damagerUUID).isOnline())
+                    Utils.sendActionBar(Bukkit.getPlayer(damagerUUID),"§4" + e.getPlayer().getName() + " §6 tente de vous échapper, vous pouvez le poursuivre !");
+                playersToSlow.remove(e.getPlayer().getUniqueId());
+
+            }
         }
     }
 
+
+    @EventHandler
+    public void enterPvp(EnterWarzoneEvent e) {
+        //si le joueur a été touché
+        if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
+            GlowAPI.setGlowingAsync(e.getPlayer(),false, Bukkit.getOnlinePlayers());
+        } else {
+            Utils.sendActionBar(e.getPlayer(),"§cSoyez prudent ! c'est une zone dangereuse");
+        }
+    }
 
     //prevent teleport when tagged
     @EventHandler(priority = EventPriority.LOWEST)
@@ -162,92 +234,51 @@ le message, vous entrez en mode pvp s’affiche tous les x temps
         }
     }
 
-    /**
-     * Check if players and in warzone -> add both to the tag list
-     * if safezone cancel, if player hitted is contained in the tagged list and the damager has the kit, add it
-     *
-     * check distance, if distance is small don't cancel tag
-     *
-     * @param e
-     */
+
     @EventHandler
-    public void damage(EntityDamageByEntityEvent e) {
-        if(!e.getEntity().getWorld().getName().equalsIgnoreCase(world)) return;
-        if(e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
-            Player damager = (Player) e.getDamager();
-            Player victim = (Player) e.getEntity();
-            CapitalistPlayer victimCapitalist = CapitalistPlayer.getCapitalistPlayer(victim);
-            CapitalistPlayer damagerCapitalist = CapitalistPlayer.getCapitalistPlayer(damager);
-            //Prevent victim to be damaged by a player if safe zone or without kit :)
-            if((!victimCapitalist.isTagged() && !Safezone.getEnteredPVPZonePlayers().contains(victim.getUniqueId()))) {
-                e.setCancelled(true);
-                return;
+    public void join(PlayerJoinEvent e) {
+        if(badplayers.containsKey(e.getPlayer().getUniqueId())) {
+            UUID uuidDamager = badplayers.get(e.getPlayer().getUniqueId());
+            if(Bukkit.getPlayer(uuidDamager) != null && Bukkit.getPlayer(uuidDamager).isOnline()) {
+                tagPlayer(e.getPlayer(), false);
+                CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(e.getPlayer());
+                cp.setLastDamager(Bukkit.getPlayer(uuidDamager));
+                cp.setRecentHit(true);
             }
-            damagerCapitalist.setRecentHit(true);
-            victimCapitalist.setRecentHit(true);
-            //If victim is tagged -> allow damage
-            if(victimCapitalist.isTagged()) return;
-
-            //Apply tag for both
-            victimCapitalist.setTagged(true);
-            if(!damagerCapitalist.isTagged()) {
-                damagerCapitalist.setTagged(true);
-                removeTagLater(damager,true);
-            }
-            removeTagLater(victim, true);
+            badplayers.remove(e.getPlayer().getUniqueId());
         }
-
     }
 
-    @EventHandler
+    private Map<UUID, UUID> badplayers = new HashMap<>();
+    @EventHandler(priority = EventPriority.HIGH)
     public void quitTagged(PlayerQuitEvent e) {
         CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(e.getPlayer());
-        if(cp.isTagged()) {
-            //Recompense pour ceux qui ont tapés
-        }
-    }
+        if (cp.isTagged()) {
+            if (cp.hasLastDamager()) {
+                Player damager = cp.getLastDamager();
+                if (damager.isOnline()) {
+                    badplayers.put(e.getPlayer().getUniqueId(), damager.getUniqueId());
+                    Utils.sendActionBar(damager, "§6Le joueur " + e.getPlayer().getName() + " s'est déconnecté en pvp");
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(instance, () -> {
+                        Utils.sendActionBar(damager, "§6Il dispose de 2 minutes pour rejoindre à nouveau");
+                    }, 20 * 3);
 
-
-
-    @EventHandler
-    public void enterSafe(EnterSafezoneEvent e) {
-        if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
-            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20 * 3, 3, true,true));
-            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ITEM_BREAK,1,0);
-        }
-    }
-
-
-    public void removeTagLater(Player p, boolean actionbar) {
-        if(actionbar) {
-            //send msg player is tagged
-            Utils.sendActionBar(p,ChatColor.RED + " Vous entrez en mode pvp !");
-        }
-        CapitalistPlayer tagged = CapitalistPlayer.getCapitalistPlayer(p);
-        new BukkitRunnable() {
-            public void run() {
-                if(tagged.getPlayer().isOnline()) {
-                    if (tagged.isTagged()) {
-                        if(tagged.hasRecentHit()) {
-                            removeTagLater(tagged.getPlayer(), true);
-                            return;
+                    Bukkit.getScheduler().runTaskLater(instance, () -> {
+                        if (badplayers.containsKey(e.getPlayer().getUniqueId())) {
+                            Utils.sendActionBar(damager, "§6Le joueur " + e.getPlayer().getName() + " ne s'est pas reconnecté: ");
+                            //call kill event
+                            List<ItemStack> list = Arrays.asList(e.getPlayer().getInventory().getContents());
+                            PlayerDeathEvent event = new PlayerDeathEvent(e.getPlayer(),
+                                    list,e.getPlayer().getExpToLevel(),
+                                    "§cLe joueur §4" + e.getPlayer().getName() + " §cest mort car il s'est déconnecté pendant un duel ");
+                            Bukkit.getPluginManager().callEvent(event);
+                            badplayers.remove(e.getPlayer().getUniqueId());
                         }
-                        tagged.setRecentHit(false);
-                        tagged.setTagged(false);
-
-                        //si encore dans la zone
-                        if (Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
-
-
-                        } else {
-                            //OldSchoolPvp.getInstance().getNametag().setPvpTeam(p);
-                        }
-
-                        Utils.sendActionBar(p,ChatColor.AQUA + " Vous n'êtes plus en pvp ");
-                    }
+                    }, 20 * 60 * 2);
                 }
             }
-        }.runTaskLater(instance, 20 * 20);
+        }
     }
+
 
 }
