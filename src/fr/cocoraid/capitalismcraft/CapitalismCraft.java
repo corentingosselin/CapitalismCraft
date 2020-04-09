@@ -38,8 +38,8 @@ public class CapitalismCraft extends JavaPlugin {
         }
 
         //set pvp area cuboid
-        Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("world"),12,5,27,0,0),
-                new Location(Bukkit.getWorld("world"),25,10,40,0,0) ));
+        Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("build"),31,52,41,0,0),
+                new Location(Bukkit.getWorld("build"),-31,74,135,0,0) ));
 
         Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
         new TimeIsMoney(this);

@@ -162,6 +162,16 @@ public class TimeIsMoney extends LocalDatabase {
                 return sign.getRelative(BlockFace.WEST);
             } else if(directionSide == DirectionSide.LEFT)
                 return sign.getRelative(BlockFace.EAST);
+        } else if(face == BlockFace.EAST) {
+            if(directionSide == DirectionSide.RIGHT) {
+                return sign.getRelative(BlockFace.SOUTH);
+            } else if(directionSide == DirectionSide.LEFT)
+                return sign.getRelative(BlockFace.NORTH);
+        }else if(face == BlockFace.WEST) {
+            if(directionSide == DirectionSide.RIGHT) {
+                return sign.getRelative(BlockFace.NORTH);
+            } else if(directionSide == DirectionSide.LEFT)
+                return sign.getRelative(BlockFace.SOUTH);
         }
         return null;
     }

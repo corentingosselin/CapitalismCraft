@@ -21,12 +21,36 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
 import org.inventivetalent.glow.GlowAPI;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class TagDetectEvent implements Listener {
+
+
+    //peut pvp avec une flèche meme en hors zone
+
+    //peut toucher avec une flèche meme de l'exterieur
+    //peut toucher de l'interieur vers l'exterieur
+    //attention au flèche qui provienne du meme damager
+    //la deconnexion n'est pas trigged
+
+
+    //when players must be glowed ?
+    //when they are outside and with tag
+    //or when they are outside and just tagged
+
+    //To which people we must display glow ?
+    //players who are outside
+
+    //When should we remove the glow ?
+    //when the player is entering the pvp zone or when the player is no longer tagged
+
+    //when should we hide the glow from other ?
+    // when the other is entering the pvp area
+
 
 
     //Call this method inside damage entity event if they are both inside the pvp area
@@ -44,7 +68,7 @@ public class TagDetectEvent implements Listener {
 
 
 
-    private String world = "world";
+    private String world = "build";
 
     private CapitalismCraft instance;
     public TagDetectEvent(CapitalismCraft instance) {
@@ -74,8 +98,13 @@ public class TagDetectEvent implements Listener {
     }
 
 
+
+
     public void tagPlayer(Player player, boolean resend) {
         CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(player);
+        if(cp.isTagged() && !resend) {
+            return;
+        }
         cp.setTagged(true);
         if(!resend) {
             //si le joueur est à l'extérieur il devient rouge pour tous les joueurs en dehors de la zone pvp
@@ -103,6 +132,7 @@ public class TagDetectEvent implements Listener {
             }
         }, 20 * 20);
 
+
     }
 
 
@@ -123,10 +153,8 @@ public class TagDetectEvent implements Listener {
                         updatePlayerToSlow(p, damager);
                         CapitalistPlayer damagerCapitalist = CapitalistPlayer.getCapitalistPlayer(damager);
                         //and tag the both
-                        if(!victimCapitalist.isTagged())
-                            tagPlayer(p,false);
-                        if(!damagerCapitalist.isTagged())
-                            tagPlayer(damager,false);
+                        tagPlayer(p,false);
+                        tagPlayer(damager,false);
                     } else {
                         //prevent damager to hit from outside
                         e.setCancelled(true);
@@ -145,7 +173,7 @@ public class TagDetectEvent implements Listener {
                 //if victim outside the pvp
 
                 if(e.getDamager() instanceof Player) {
-                    //tag damager if victim is tagged (check everywhere)
+                    //tag damager if victim is tagged
                     if(victimCapitalist.isTagged()) {
                         e.setCancelled(false);
                         tagPlayer(((Player)e.getDamager()),false);
@@ -176,8 +204,7 @@ public class TagDetectEvent implements Listener {
                 Arrow arrow = (Arrow) e.getDamager();
                 if(arrow.getShooter() instanceof Player) {
                     Player damager = (Player) arrow.getShooter();
-                    if(CapitalistPlayer.getCapitalistPlayer(damager).isTagged())
-                        CapitalistPlayer.getCapitalistPlayer(damager).setRecentHit(true);
+                    CapitalistPlayer.getCapitalistPlayer(damager).setRecentHit(true);
                 }
             }
 
@@ -187,8 +214,9 @@ public class TagDetectEvent implements Listener {
 
     @EventHandler
     public void exitPVP(EnterSafezoneEvent e) {
-      List<Player> list = new ArrayList<>();
+        List<Player> list = new ArrayList<>();
 
+        //send other glow
         CapitalistPlayer.getCapitalistPlayers().values().stream()
                 .filter(cp -> cp.isTagged() && Safezone.getEnteredPVPZonePlayers().contains(cp.getPlayer().getUniqueId()))
                 .forEach(cp -> list.add(cp.getPlayer()));
@@ -196,8 +224,9 @@ public class TagDetectEvent implements Listener {
             GlowAPI.setGlowingAsync(list, GlowAPI.Color.RED, e.getPlayer());
         }
 
-        //si le joueur a été touché
+        //si le joueur est taggé
         if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
+            //set glow himself
             GlowAPI.setGlowingAsync(e.getPlayer(), GlowAPI.Color.RED, getAllPlayersInSafeZone());
             //reset the damaged
             if(playersToSlow.containsKey(e.getPlayer().getUniqueId())) {

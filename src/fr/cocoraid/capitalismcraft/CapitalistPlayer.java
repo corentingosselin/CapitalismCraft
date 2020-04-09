@@ -1,6 +1,7 @@
 package fr.cocoraid.capitalismcraft;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class CapitalistPlayer {
     private boolean tagged;
     private boolean recentHit;
     private Player lastDamager;
+    private BukkitTask taskTag;
     private Player p;
     public CapitalistPlayer(Player p) {
         this.p = p;
@@ -39,6 +41,14 @@ public class CapitalistPlayer {
 
     public boolean hasLastDamager() {
         return lastDamager != null;
+    }
+
+    public void setTaskTag(BukkitTask taskTag) {
+        this.taskTag = taskTag;
+    }
+
+    public BukkitTask getTaskTag() {
+        return taskTag;
     }
 
     public static CapitalistPlayer getCapitalistPlayer(Player p) {
