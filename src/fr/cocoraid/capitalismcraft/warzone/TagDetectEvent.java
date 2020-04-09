@@ -21,7 +21,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitTask;
 import org.inventivetalent.glow.GlowAPI;
 
 import java.util.*;
@@ -68,7 +67,7 @@ public class TagDetectEvent implements Listener {
 
 
 
-    private String world = "build";
+    private String world = "world";
 
     private CapitalismCraft instance;
     public TagDetectEvent(CapitalismCraft instance) {
@@ -79,7 +78,7 @@ public class TagDetectEvent implements Listener {
 
 
     //autoriser tous les damages, si le damaged est à l'intérieur
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void damage(EntityDamageEvent e) {
         if(!e.getEntity().getWorld().getName().equalsIgnoreCase(world)) return;
         if(e.getEntity() instanceof Player) {
@@ -109,7 +108,7 @@ public class TagDetectEvent implements Listener {
         if(!resend) {
             //si le joueur est à l'extérieur il devient rouge pour tous les joueurs en dehors de la zone pvp
             if(!Safezone.getEnteredPVPZonePlayers().contains(player.getUniqueId()))
-                GlowAPI.setGlowingAsync(player, GlowAPI.Color.RED, getAllPlayersInSafeZone());
+                GlowAPI.setGlowing(player, GlowAPI.Color.RED, getAllPlayersInSafeZone());
 
             Utils.sendActionBar(player,"§cVous êtes désormais en mode pvp !");
         }
@@ -126,7 +125,7 @@ public class TagDetectEvent implements Listener {
                     cp.setTagged(false);
                     playersToSlow.remove(player.getUniqueId());
                     Utils.sendActionBar(player,"§bVous n'êtes plus en mode pvp !");
-                    GlowAPI.setGlowingAsync(player,false, Bukkit.getOnlinePlayers());
+                    GlowAPI.setGlowing(player,false, Bukkit.getOnlinePlayers());
 
                 }
             }
@@ -165,13 +164,14 @@ public class TagDetectEvent implements Listener {
                     Arrow arrow = (Arrow) e.getDamager();
                     if(arrow.getShooter() instanceof Player) {
                         Player damager = (Player) arrow.getShooter();
-                        if(!Safezone.getEnteredPVPZonePlayers().contains(damager.getUniqueId()))
+                        if(!Safezone.getEnteredPVPZonePlayers().contains(damager.getUniqueId())) {
+                            System.out.println("should cancel");
                             e.setCancelled(true);
+                        }
                     }
                 }
             } else {
                 //if victim outside the pvp
-
                 if(e.getDamager() instanceof Player) {
                     //tag damager if victim is tagged
                     if(victimCapitalist.isTagged()) {
@@ -179,10 +179,13 @@ public class TagDetectEvent implements Listener {
                         tagPlayer(((Player)e.getDamager()),false);
                     }
                 } else if(e.getDamager() instanceof Arrow) {
+                    System.out.println("triggered arrow, damaged outside pvp");
                     Arrow arrow = (Arrow) e.getDamager();
                     if(arrow.getShooter() instanceof Player) {
                         Player damager = (Player) arrow.getShooter();
+                        System.out.println("damager: " + damager);
                         if(!victimCapitalist.isTagged()) {
+                            System.out.println("triggered !");
                             e.setCancelled(false);
                             tagPlayer(damager, false);
                         }
@@ -221,13 +224,13 @@ public class TagDetectEvent implements Listener {
                 .filter(cp -> cp.isTagged() && Safezone.getEnteredPVPZonePlayers().contains(cp.getPlayer().getUniqueId()))
                 .forEach(cp -> list.add(cp.getPlayer()));
         if(!list.isEmpty()) {
-            GlowAPI.setGlowingAsync(list, GlowAPI.Color.RED, e.getPlayer());
+            GlowAPI.setGlowing(list, GlowAPI.Color.RED, e.getPlayer());
         }
 
         //si le joueur est taggé
         if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
             //set glow himself
-            GlowAPI.setGlowingAsync(e.getPlayer(), GlowAPI.Color.RED, getAllPlayersInSafeZone());
+            GlowAPI.setGlowing(e.getPlayer(), GlowAPI.Color.RED, getAllPlayersInSafeZone());
             //reset the damaged
             if(playersToSlow.containsKey(e.getPlayer().getUniqueId())) {
                 e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 5, 3, true, true));
@@ -247,7 +250,7 @@ public class TagDetectEvent implements Listener {
     public void enterPvp(EnterWarzoneEvent e) {
         //si le joueur a été touché
         if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
-            GlowAPI.setGlowingAsync(e.getPlayer(),false, Bukkit.getOnlinePlayers());
+            GlowAPI.setGlowing(e.getPlayer(),false, Bukkit.getOnlinePlayers());
         } else {
             Utils.sendActionBar(e.getPlayer(),"§cSoyez prudent ! c'est une zone dangereuse");
         }
