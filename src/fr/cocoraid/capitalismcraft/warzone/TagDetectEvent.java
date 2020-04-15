@@ -68,7 +68,6 @@ public class TagDetectEvent implements Listener {
 
 
     private String world = "world";
-
     private CapitalismCraft instance;
     public TagDetectEvent(CapitalismCraft instance) {
         this.instance = instance;
@@ -165,7 +164,7 @@ public class TagDetectEvent implements Listener {
                     if(arrow.getShooter() instanceof Player) {
                         Player damager = (Player) arrow.getShooter();
                         if(!Safezone.getEnteredPVPZonePlayers().contains(damager.getUniqueId())) {
-                            System.out.println("should cancel");
+
                             e.setCancelled(true);
                         }
                     }
@@ -179,13 +178,10 @@ public class TagDetectEvent implements Listener {
                         tagPlayer(((Player)e.getDamager()),false);
                     }
                 } else if(e.getDamager() instanceof Arrow) {
-                    System.out.println("triggered arrow, damaged outside pvp");
                     Arrow arrow = (Arrow) e.getDamager();
                     if(arrow.getShooter() instanceof Player) {
                         Player damager = (Player) arrow.getShooter();
-                        System.out.println("damager: " + damager);
                         if(!victimCapitalist.isTagged()) {
-                            System.out.println("triggered !");
                             e.setCancelled(false);
                             tagPlayer(damager, false);
                         }

@@ -11,7 +11,7 @@ public class DoubleExpEvent implements Listener {
     public void doubleExp(PlayerExpChangeEvent e) {
         if(e.getPlayer().hasPermission("cc.seigneur")) {
             int amount = e.getAmount() * 2;
-            e.getPlayer().setExp(amount);
+            //e.getPlayer().setExp(amount);
         }
     }
 }
