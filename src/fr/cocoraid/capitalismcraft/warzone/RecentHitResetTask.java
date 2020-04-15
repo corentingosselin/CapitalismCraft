@@ -1,6 +1,6 @@
 package fr.cocoraid.capitalismcraft.warzone;
 
-import fr.cocoraid.capitalismcraft.CapitalistPlayer;
+import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RecentHitResetTask extends BukkitRunnable {

@@ -1,7 +1,7 @@
 package fr.cocoraid.capitalismcraft.warzone;
 
 import fr.cocoraid.capitalismcraft.CapitalismCraft;
-import fr.cocoraid.capitalismcraft.CapitalistPlayer;
+import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.utils.Utils;
 import fr.cocoraid.capitalismcraft.warzone.event.EnterSafezoneEvent;
 import fr.cocoraid.capitalismcraft.warzone.event.EnterWarzoneEvent;

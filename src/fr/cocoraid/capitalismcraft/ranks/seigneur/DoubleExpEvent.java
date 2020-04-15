@@ -6,12 +6,11 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 
 public class DoubleExpEvent implements Listener {
 
-
     @EventHandler
     public void doubleExp(PlayerExpChangeEvent e) {
         if(e.getPlayer().hasPermission("cc.seigneur")) {
             int amount = e.getAmount() * 2;
-            e.getPlayer().setExp(amount);
+            e.getPlayer().setLevel(amount);
         }
     }
 }

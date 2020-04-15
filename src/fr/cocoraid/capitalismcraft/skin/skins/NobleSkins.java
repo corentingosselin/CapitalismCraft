@@ -1,0 +1,95 @@
+package fr.cocoraid.capitalismcraft.skin.skins;
+
+import fr.cocoraid.capitalismcraft.skin.Gender;
+import fr.cocoraid.capitalismcraft.skin.Skin;
+import fr.cocoraid.capitalismcraft.skin.SkinRarity;
+import fr.cocoraid.capitalismcraft.skin.loader.SkinLoader;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class NobleSkins implements SkinLoader {
+
+    @Override
+    public List<Skin> loadSkins() {
+
+        List<Skin> list = new ArrayList<>();
+
+
+
+        //https://mineskin.org/1316576175
+        list.add(new Skin("§3Noble", Gender.MALE, SkinRarity.NORMAL,
+                "eyJ0aW1lc3RhbXAiOjE1NzU1MjMxMDQyMDcsInByb2ZpbGVJZCI6ImQzMDQwY2FhNmNiMTRkNzZhNzI4NmNkMWJlYmQxZWE5IiwicHJvZmlsZU5hbWUiOiJQdXJpayIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkwYjQzYzNlY2JkNzM3NWU2Zjg1MzExNTIyMTY0ZmM2MmY3YzUxYTUyNTNlYzFjZTFhNzJiOTQ0NzgzMTZjMCIsIm1ldGFkYXRhIjp7Im1vZGVsIjoic2xpbSJ9fX19",
+                "pj1iW3XoATtNy0WTIEQ0BIjkDdoIcW47UMmHuIC8KSCA7WOtQF7J9qsyKnV3q8N+sqg7RJet5PeWVZqePvnUR/oCxSa/QzbVFQDYOX2be0vxkvBIGZQxtugOeM5orU6C2xNupQZI3CnNQhMcayN39ISRQ4e3FXu1/dSEG0CJxiiGlHGZ6LAfCFhEsDKli1cCVLWw2HmUFjgqnTgcGgVRgpgH3+P9Sy7mZDCO1oM0xhfnqeFUZl6T5gQiTzYrbMakqjZADdc+8R7Lj/FEjPPiKhgNPAzIHvKn3pZMYLOrAVIlWFx2Rs2y0mAWvU1C8Q03UU4kxdSl9GOTrF4NEDtY4yBzZpWpWX/ANnAEb84mhXc7ozdcBhkcbmvmUSpVjlY/0u86JkExv21WWAVnr4nH1C/XA/vRIjZHgwJw10NFBOK0NsWBhRRcrkbArkZbG2z46XT5xJZ6KuYBWuEtertBEgpAZjELJQO59e1s52BGm2UDbvB1Xoiu+xdFSAajftdxl0oFpk6pJirUJNkgsH/IRgYLolp5YplMZPKtzm5JG2GhMRUBZ6WRfE3nJ0yj6SGny7RcyW14wjwGWHWqpzaWmUFnZ1Ay9iJRnlGn6w4hiOAg9WfuUVzzmCSSBx2/9IJZVY9XO66UBzSXRxhry/Hi1outOGM4y+Mx/AWxltHAzv4=",
+                "cc.noble"));
+
+
+
+        //https://mineskin.org/854339955
+        list.add(new Skin("§3Noble", Gender.MALE, SkinRarity.COMMON,
+                "eyJ0aW1lc3RhbXAiOjE1ODExMjEzMjA1MDUsInByb2ZpbGVJZCI6IjgyYzYwNmM1YzY1MjRiNzk4YjkxYTEyZDNhNjE2OTc3IiwicHJvZmlsZU5hbWUiOiJOb3ROb3RvcmlvdXNOZW1vIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS84NmQ4ZmMwYmFiZWFkZmQ0Y2E2NzQ3Zjg2NzdjYTRlYzZhOTQ0NTgwYzgyZDM1MDVmZmRiYjRmY2M0ZjkyNTZiIn19fQ==",
+                "nD/fjjg5UjQOorogVEmkvbiKD3Za2Ub7Ty2QHI38clQ+j5IZ+9zIW2cM+212IAVOHlGvjxj7/KijIG7IdgUWJW6S55dk/gejd7NDcfc9bKsVkOuxrhacyNPNf9ArQK6ddLSSziKNzmsveGjuy/w+w4dgHfWQJBtuAnF4owXExCGRu9c1DWfOaNSqAsOjSxzB2619qOsEj+Knys2lDSGruEeny4hqbwMe23h/W2SZTguw+Y/TI0kcSwLsB2++efrn+vjPjaHQi7cjXfyUX+Qe+0/DEBEkfaaiBM8e8Fbn5M58gaIb4VddDh8X3NxV1M4C4D8cWxYbGR9/fssb7bxrgPxkTU3/d4RM2mvoHN/qTOPFfkZF4oWuhqqbNiPF7J2U8Q0bGVOEljTJx/Qch0V6y0elhu0tZuyqk8rjcMLulyGeMaJ1AJ7f2655TBXYDqtasxSr81RWVFMvAmfJczNcXmaZw1YlOzykbT3JM5VfqchRgbcwMiY1p79rlnEwpqBrpnylIWOWhDCimrwpZbL+KtVGohPsXO8k/AgE4qyHlGXF0T0RKQtlnB93Z4uMvhIBBdWHeMWKJ1xetixPPltXOErq4On+xS+3DqVaZepd4oK9j7dmNttvEP/PFnILYG0obqOYpAhM8Dh2B6grcXPXEYxT6MbqSNn5EJi0DYovrlw=",
+                "cc.noble"));
+
+
+
+        //https://mineskin.org/857939196
+        list.add(new Skin("§3Noble", Gender.MALE, SkinRarity.RARE,
+                "eyJ0aW1lc3RhbXAiOjE1ODY4NjYyNjU2NDIsInByb2ZpbGVJZCI6IjNmYzdmZGY5Mzk2MzRjNDE5MTE5OWJhM2Y3Y2MzZmVkIiwicHJvZmlsZU5hbWUiOiJZZWxlaGEiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2E0Y2FhN2Q4YjVkMDEyNDM1Nzc4ODYwYzg4ZDk1YWE2OTA4YTQzNGFmMDRlMjRlZmY4YjFmMWU0OTA4MGE5MTYiLCJtZXRhZGF0YSI6eyJtb2RlbCI6InNsaW0ifX19fQ==",
+                "yaDniJUy/HnVlWB5CaCqHTN4KFEB2wx3ta44XLadZkRVjZAexWqUuMJbwlbFivnsy+gXQKVInEzJzhsatavAuO3arV2obCNOZu/7/sPtxREROulwshb3Vt/dxSmsI1WNP8V9OkAxvW93DaEo309Vd9ojD+ge70aF3o300JvdwzmgEdABUvI16DImgNngcGT5qrU6j74U5uPAqN/QO3fkx/cGL9NCTpIGjtoF6zPOJpEPfPmSBrqnQxxg19/m3XNI1uGOVJNw8JaHy36i2aWUvqyvMVrcPcFlXT5kL4Y4noPzNICvNi2iS3wK9KOcO5CfKhZravZ9yvD74HJX444vqjcOaOUr78wm/f6tKzFnQVGM+uYPv60gEQ1vAtWQ+GkhYRBvjzVwckiKCgD35xAo0gx+Z/sHuDtqIaJAiAfHD8CbGABTSUxouMMIuIODSQwz/ssQSnzuHw2/+/xOZ+q8AR5wGIyCwzgIWnZn1i7CdEy+YdXgM6jWBpC3uyMAQ2LuK8m+/Sl1Hk1bPkE4Gr/YKOs2m7k9NT4APSZY8UkEJnBlTt9hv6dVSY60ppVPnpaP/oFTTbLgatPZhMOnAhSopOGtsY02kRSp1ybvyrXBRAQSOtv01gV5OAHWAVvD+k42by7hRilpE6YfVcxBAlVrHBAaCpAhyZhPX/FvDXKROU8=",
+                "cc.noble"));
+
+
+        //https://mineskin.org/1257234748
+        list.add(new Skin("§3Noble", Gender.MALE, SkinRarity.RARE,
+                "eyJ0aW1lc3RhbXAiOjE1ODY4NjYyOTYyOTcsInByb2ZpbGVJZCI6ImJlY2RkYjI4YTJjODQ5YjRhOWIwOTIyYTU4MDUxNDIwIiwicHJvZmlsZU5hbWUiOiJTdFR2Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8xNTU3OTg2NmY4MDQ1YzZiZmQ3NzE1ZWZjNDE5YWJhNWMwMmNlMzE3MWRkNDZkMTA4MmNlNzUzMGUyNTVhZWIxIiwibWV0YWRhdGEiOnsibW9kZWwiOiJzbGltIn19fX0=",
+                "axqrw3rgLx9abQH99h8apavkuxfNZPAbBqfPHqXlhQqb6Ol3JiQy7NDXfrWPjQNWPtCd7y6e5wL6M26f8lsN08chZBddL9RuGKuVf255EljyYeGlzSQszPnX3n8zqmyva9++IYg9rwBys0vBXPditZqUT46TomFrNlEh3lheZGBx45JD7IQ3FYTcQmjHu8mRhMAHetoUjWU/9+ptP08dSPWcMZ+W3E2XD5PbMH9dKfnNp8F0YmOAT95TeOW8fiY3FBO7WPN3D6dPz4TAgaZ29X9nRZsBsjiARp5eMLLtRxCrkSHoQwxU3rmSKz0cKgada8hs4S3v/aOWhdLxvRnP8Vft0nAxdMIAl5n7LamUCUaX/3cZvY60zczs8DD9/gvcHQXds7+rKhNRs2l5JDTJ/Cbst0pCpTfeSMDcUkY510pQFiSIulOz2YHgctG0/e3ni6UV07+mhRt3yc0jvBm8ygwlkGC1ks1zrlhRNURgjCLuiIcDlTnXFrIrFjxQ+LzD0krAPsmXrsmne2W8Gq01AJUJMTZP5tQb0P3To3uJ/eJR8GyfPOOIs7EA9fCNWyPuFNp1Fw4CX+NQp+hEOunp9zB1oK2fS70WMtDI4K1YUqRFBOqBpntVgVkPYbrZBPHIiZ+1GZfqKVfzKPNvzd3YNs450V29mlBjqmuX5VNQQAo=",
+                "cc.noble"));
+
+
+
+        //https://mineskin.org/1490014327
+        list.add(new Skin("§3Noble" , Gender.MALE, SkinRarity.TREASURE,
+                "eyJ0aW1lc3RhbXAiOjE1ODY4NjYzNzA1MTYsInByb2ZpbGVJZCI6ImIwZDczMmZlMDBmNzQwN2U5ZTdmNzQ2MzAxY2Q5OGNhIiwicHJvZmlsZU5hbWUiOiJPUHBscyIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjY5Yzk0NTJhOGZiZThhMDg4YWMzZWEzMDQxYTM2ZTc2MjE5ZjI5Yjk1OWI5ODE5MDMyMTQzMjc5MTQ4NThkOCIsIm1ldGFkYXRhIjp7Im1vZGVsIjoic2xpbSJ9fX19",
+                "F1x/PtRhmj61UGfG/X80AqCGj4g7oK2cLL5Q+zk4zXPbDcEttvQN8l3bGd0TvcvZInzrKnxvG8tQ6wAG09kUC7vZogNhncKbNYTwrAmGaTXi/fTjQhVg/7IwbW5uvsLCEMuD6VAoOsQv+MOoiCPVd1o/6pre7AdQfwYoBMwEY9heu8imVBUT5VvkOQwB4FiGMZ6/oNmG+n/aNeiqXNyJWRlHYwd95ULibAyha5UVuYjvz+2qDoe33TFTr3S50hWLHTW93rzCnSGz3/I72WHx8YowOHySFLe/h9a38IUbYgXzsTfzvAE7vP1m4QKo5BWNe/dtTeR62FkHcykUEqcyHNGkJHFZBPlwIeHKpVGRHwrI1zUrPKWjsC64Ptbx2L5DG7qB68qjKxJADzEIVSRYyQ3CET1GWeVEaZ1usNQHFZRzJbe4odhC/vx5w63pwLWkZwdsxzqM3jrPiHxkM8EkVEAxBVHwfd9DSur+fkHH5BWxIkrhppbBZU61JRVlo7XILue+BatFtR6kIju4cvZ7tk1JZkNV7V7UmCMIp1RBHYWef2tTL7h35I6oq91403RK9ehSHs1uqREUqkct9YKgaaNqRH3Dv0Vh1u/tU/J310cA/jJ78UEnyujM15/DoTDfYhRUG79ZhFonJXFt9+T84ec3OIAvsmsnQWbbk/lur9c=",
+                "cc.noble"));
+
+
+        //female
+
+        //https://mineskin.org/1727253442
+        list.add(new Skin("§3Noble" , Gender.FEMALE, SkinRarity.NORMAL,
+                "eyJ0aW1lc3RhbXAiOjE1ODU5MzE5ODY1OTUsInByb2ZpbGVJZCI6IjIzZjFhNTlmNDY5YjQzZGRiZGI1MzdiZmVjMTA0NzFmIiwicHJvZmlsZU5hbWUiOiIyODA3Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yYWI1YTZjODIwN2ZhNGMzNmMzZTZlODRmNmQ3MzNlOWYzM2JlYTc1ZWRjZGYwNzQxZjkzMzhlOTM4OGJkNTY5In19fQ==",
+                "",
+                "cc.noble"));
+
+        //https://mineskin.org/1005615187
+        list.add(new Skin("§3Noble" , Gender.FEMALE, SkinRarity.EXTRA,
+                "eyJ0aW1lc3RhbXAiOjE1NjcwODA2NDI1NzMsInByb2ZpbGVJZCI6IjkxZjA0ZmU5MGYzNjQzYjU4ZjIwZTMzNzVmODZkMzllIiwicHJvZmlsZU5hbWUiOiJTdG9ybVN0b3JteSIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzc2ZWQ0MWFmOTU1MzUxNWExZTg1OGYwMjE2ZjZiMjg2M2MxYmRlODdmMzdmMTk4NDY3MzdlYWU3MzU5ZGIwNSJ9fX0=",
+                "buvGQvpBReIW9DaKn9FrbxDnvIXyttHIRpqVkwhXICvUt0vM4ZnzpoNMaakBdfpodQcgE6VxItA4xE+lJYRJ7Ow8qLQCsxcH6iELCoGCpdHg4IAR/7iEPVNVhF+BG2Vb4ZgZ+k0hUkYrrV4ZDXl+X6ggpstS7EIIW6V+0kbVOxQJqDUAP+8F697szmL3nrH3BfJVo/widgsUyxjCrLpEcxbFvMJcQQOcgHIGx8MZAf6nWNORnjvx56rk7n3lXQwxYRSHs/4dkHGdcmlWIAuAvFL/hJ78iqp9742aYWNdZ+a4hyq/LSfFO48Ogq6p3S0Fv2Ia11H5joMMlXjU1aYjhzz2bzsgtn4yO1fN65ABifP8uSN3dTIi4BCF9wlkbRZo3p4lmCv4qQuzc15AmRpRfus4Kvr4OX3QmZxvyTpECpapspwLej5+70rnU16w/lgAs0kad5qTCCi+6FMXIvoWnP4NhQQlYjgcPEDHqzbEFcvcbiglvpRAH9+dgw3LU/vd35mFe0fPpkL4rT0lcRXBiMXgpqtRkb7vf6K1PXz4hEZitV9vSw5yGXIcTar7KTrWxEAQtoJFwTYe48EaMC65VcNJU4wwJFxI40GuhHlh/XjDYr6SopFD8LGgMC5j8KQbQEjrd7Cf0GFPaza+4eIEfELny6BDJ1tOi8xBcsSSRVw=",
+                "cc.noble"));
+
+        //https://mineskin.org/1129357334
+        list.add(new Skin("§3Noble" , Gender.FEMALE, SkinRarity.EXTRA,
+                "eyJ0aW1lc3RhbXAiOjE1NjE1NTcyNjkxMTYsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzEzYzcyMTZlOTI3MzZjNjE0YTAwNzhhMjE5N2NiZmM3YzgxZTZmMTk1YzJkZDJkYjllMjBjZTc1ZmQzNWEyOWEiLCJtZXRhZGF0YSI6eyJtb2RlbCI6InNsaW0ifX19fQ==",
+                "mMddm1goTWRUiT4K4tRW2673U+5Glis0f1eBFj7Zo6XFzUXkbRZU5ZWFoZI0UxH3LffE7vrjpiiEuNl4t74ohTGeNCooTPqjOiLCAAPO+yFpN7zXZCiCK4gfXRgELnZtlQj65WfZVPLOcTYCWyYuz2l7JoWSCzmg4vWrk6MhN0HavQwqWQo7CMjC7WmwI6sdcd4eR3Mj1wxmoJTMdzjYWx0NgJuQWRWxgDszaw7dNYQqX8vnZD7GCU6tzzJ70/SeDge0bYscgndSPj7pFvUBOtJuj5a8IdSvlrPMhJ4r7pvFjVcTRRfND/kH8tZmNqhV9cb0E3cDsh527dLCeizUbv/TrASIxjH8bHZOXck5z0/XjPQTqqjlgVnhNh0qV+iwbKl1I9bZo0YM5qocCE4WdX9I51vLNGuOuxWK6W4JQeiccWj9Ge/2PNaHNvn2a1sZS0bdAWAJxxptDgB3mNvG8OA5xKYAVy/OdVKIZ63P5p57TxBVSY8WutNjS05HcyL1ytGP/a27Lu2cZ8Neg6WxuyZe7LLazXLKO2inbfss8oZKeyBDFO+1fVXRsS1NBWx8CqP1r4m7dzGdbUBe4P1/SGu73I2uLnAbdgXcp88zZxhnNLaAHoqPUfTQrqegEUmLOtcdpgSSsbDRGdtFQ7XqKqSe7lp+kUAG4Sm7jakazzU=",
+                "cc.noble"));
+
+
+        //https://mineskin.org/467871426
+        list.add(new Skin("§3Noble" , Gender.FEMALE, SkinRarity.TREASURE,
+                "eyJ0aW1lc3RhbXAiOjE1NjY0MjUxNDIyNzIsInByb2ZpbGVJZCI6ImJlY2RkYjI4YTJjODQ5YjRhOWIwOTIyYTU4MDUxNDIwIiwicHJvZmlsZU5hbWUiOiJTdFR2Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS81ZmZhNzBlNTUwNTQ4NGIwZjA3NTRiNmY2M2ViM2IzY2NhYjMzYzI4ZGZhMDdiZDZiMDQ0MjBkMWI0M2QyYWZlIiwibWV0YWRhdGEiOnsibW9kZWwiOiJzbGltIn19fX0=",
+                "buxDkmAivuS+f3HwdLeiZ+lKN8tvwJRthdkaQAAP0EFpTi1CJwiRajhYh6DsU0DzS/jq7eRzjZgtAqgraJ58YMwV78yTk0ksCMsWly7RYPG01GPYSyv7EUPotOwHu5mSIyL40JomZ8D2DRnVE04Y4hLDrt1HUl6PKNt3J0DCHlSXYBl9fVpRX1EI0xDAY9zuzhKEIiQA4wOM7o3oaYJL6+osR6nJ2NtiDLj2b2PY8rvn27qLMC7O55cS8Jhjir8bUmiZPRv2UWSiFeE6VkbtDOvMQdrMRuoSSmS9bPjSr6QXKWWvw9N6F5tIr0kLI/DXrK28cJiJmMhgv6GfW2B3beKa1pV2BwiSMhd3xLhU53yiiOden7jE4pNjSqFzAJYHoveXSdKWgB5RnpZ64gzaPMZoJJuZ5F7s1car+loNvfNbtb4SYqAplYJgmaFEq1J06wqX16ebUTUcPxcwOr2srt3wo4pjlvjC5i0S6ReKFKD2InZubqIByyQ3UpYwhKwO/CWFFJ46x9G8ec7gzNyOmnDu/x1q3LwpsSDC6QonOmtEzTTdPxqhsz5WVRcMS/H4ScJo3BeKeQvODe1+/Xxw9Xjgq02mukzGnAtUV2VJWhqcfMwr5dQTN2F5AhzwaX8TrHS0l2EB0n1AaoqiEwLusbZqFVTtO2zGmqQskquyEw8=",
+                "cc.noble"));
+
+        //https://mineskin.org/631711762
+        list.add(new Skin("§3Noble" , Gender.FEMALE, SkinRarity.EXTRA,
+                "ewogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJpZCIgOiAiNTU4NDRlNDZkZTI2NGI2OWIyMzI1YzNjMzM5YWU3NDIiLAogICAgICAidHlwZSIgOiAiU0tJTiIsCiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI1MWIyOTU3YjIxOTRlYjQwNmFiZWFiMDBkMzZjMzcwMTBmZmViOWFlMGY0MDY4ZTFlNjUyNjIxNzBjNGY2MyIsCiAgICAgICJwcm9maWxlSWQiIDogImIwZDRiMjhiYzFkNzQ4ODlhZjBlODY2MWNlZTk2YWFiIiwKICAgICAgInRleHR1cmVJZCIgOiAiNzI1MWIyOTU3YjIxOTRlYjQwNmFiZWFiMDBkMzZjMzcwMTBmZmViOWFlMGY0MDY4ZTFlNjUyNjIxNzBjNGY2MyIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfSwKICAic2tpbiIgOiB7CiAgICAiaWQiIDogIjU1ODQ0ZTQ2ZGUyNjRiNjliMjMyNWMzYzMzOWFlNzQyIiwKICAgICJ0eXBlIiA6ICJTS0lOIiwKICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzI1MWIyOTU3YjIxOTRlYjQwNmFiZWFiMDBkMzZjMzcwMTBmZmViOWFlMGY0MDY4ZTFlNjUyNjIxNzBjNGY2MyIsCiAgICAicHJvZmlsZUlkIiA6ICJiMGQ0YjI4YmMxZDc0ODg5YWYwZTg2NjFjZWU5NmFhYiIsCiAgICAidGV4dHVyZUlkIiA6ICI3MjUxYjI5NTdiMjE5NGViNDA2YWJlYWIwMGQzNmMzNzAxMGZmZWI5YWUwZjQwNjhlMWU2NTI2MjE3MGM0ZjYzIiwKICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgIH0KICB9LAogICJjYXBlIiA6IG51bGwKfQ==",
+                "BWbYWrC7Kf7zp+jgwe+dFRM2t/iJYT4Xth9ZECgY8jMc/OgOunwulHPkVCOAbQ44E9TTsD3NHvXMmXeUhHbZplRirMvp0XpQ3Nxi+he+l69d8Mxr+AsGse2d3mofIIKK0CYpRtHN4q6lUrMCjB4CPyCcvIJQwcXEXdktfMNrGiBxs5Z6GRyzpLEb2bJVT4lWfT0NG2ABtRmsyV7/Ec1zZz6yRlOT3Y7nr6X1eYpfSuJ8s2g/1cJ/IwXJdy70e9EdufLt5J4JXKUmVX0hQFtvNqaL90bYTTx62NfA8qHG1HQCWHC4F+jh4bcAJQL2Z+d/rvL5tsXsmZounbcvJRrxDncwVj1EAEwU8VXPtXKQKBtA8ANJBoGSy/QudvnPPLJjj6/8fmWl2uace3RlbQX6ZYfzPw3g63W3J5aqX1sAyMAzMNSAHySkK57cn1q+Vh1NnvJuTZZHuw85fi+Ee0jAcNI4sVDTs/hmtAyhuYWmizFym109GNEdU6n1l8MWGwKs66Mfta2vBSKyJUaeOvRKbvHsZYd4ZwabCj7n6aYwxP26HDfPHcCjiT3ai9sjVyzpBMQGjOVLNHdNYkqA22N4e2VzL55lD5gB/NLV5lEvUqftvLFyWXtGZ1qbDwu+aOCjcYvqMiNEKpCPP00AAPcw+hcD3KEA70+estOH3OAnuuw=",
+                "cc.noble"));
+
+
+
+        return list;
+    }
+}

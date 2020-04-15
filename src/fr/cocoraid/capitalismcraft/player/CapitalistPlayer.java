@@ -1,15 +1,23 @@
-package fr.cocoraid.capitalismcraft;
+package fr.cocoraid.capitalismcraft.player;
 
+import fr.cocoraid.capitalismcraft.database.LocalDatabase;
+import fr.cocoraid.capitalismcraft.player.datas.ImportantData;
+import fr.cocoraid.capitalismcraft.skin.Gender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CapitalistPlayer {
 
 
+
+
+    private ImportantData playerdata;
+
+
+
+    private boolean emperorTargetedByMonsters = false;
 
 
     private static Map<UUID, CapitalistPlayer> capitalistPlayers = new HashMap();
@@ -19,8 +27,11 @@ public class CapitalistPlayer {
     private BukkitTask taskTag;
     private Player p;
     public CapitalistPlayer(Player p) {
+
         this.p = p;
         capitalistPlayers.put(p.getUniqueId(),this);
+        //here register player in database if not exist
+
     }
 
     public void setRecentHit(boolean recentHit) {
@@ -57,6 +68,14 @@ public class CapitalistPlayer {
     }
 
 
+    public void setEmperorTargetedByMonsters(boolean emperorTargetedByMonsters) {
+        this.emperorTargetedByMonsters = emperorTargetedByMonsters;
+    }
+
+    public boolean isEmperorCanBeTargetedByMonsters() {
+        return emperorTargetedByMonsters;
+    }
+
     public void setTagged(boolean tagged) {
         this.tagged = tagged;
     }
@@ -73,4 +92,17 @@ public class CapitalistPlayer {
         return p;
     }
 
+
+
+    public void unregister() {
+        //uncache not important data only
+    }
+
+    public void setPlayerdata(ImportantData playerdata) {
+        this.playerdata = playerdata;
+    }
+
+    public ImportantData getPlayerdata() {
+        return playerdata;
+    }
 }
