@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -88,7 +89,7 @@ public class NobleSkins implements SkinLoader {
                 "BWbYWrC7Kf7zp+jgwe+dFRM2t/iJYT4Xth9ZECgY8jMc/OgOunwulHPkVCOAbQ44E9TTsD3NHvXMmXeUhHbZplRirMvp0XpQ3Nxi+he+l69d8Mxr+AsGse2d3mofIIKK0CYpRtHN4q6lUrMCjB4CPyCcvIJQwcXEXdktfMNrGiBxs5Z6GRyzpLEb2bJVT4lWfT0NG2ABtRmsyV7/Ec1zZz6yRlOT3Y7nr6X1eYpfSuJ8s2g/1cJ/IwXJdy70e9EdufLt5J4JXKUmVX0hQFtvNqaL90bYTTx62NfA8qHG1HQCWHC4F+jh4bcAJQL2Z+d/rvL5tsXsmZounbcvJRrxDncwVj1EAEwU8VXPtXKQKBtA8ANJBoGSy/QudvnPPLJjj6/8fmWl2uace3RlbQX6ZYfzPw3g63W3J5aqX1sAyMAzMNSAHySkK57cn1q+Vh1NnvJuTZZHuw85fi+Ee0jAcNI4sVDTs/hmtAyhuYWmizFym109GNEdU6n1l8MWGwKs66Mfta2vBSKyJUaeOvRKbvHsZYd4ZwabCj7n6aYwxP26HDfPHcCjiT3ai9sjVyzpBMQGjOVLNHdNYkqA22N4e2VzL55lD5gB/NLV5lEvUqftvLFyWXtGZ1qbDwu+aOCjcYvqMiNEKpCPP00AAPcw+hcD3KEA70+estOH3OAnuuw=",
                 "cc.noble"));
 
-
+        list.forEach(r -> r.setRank(Rank.NOBLE));
 
         return list;
     }

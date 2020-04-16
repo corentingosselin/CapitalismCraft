@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -14,7 +15,7 @@ public class MarshalSkins implements SkinLoader {
     public List<Skin> loadSkins() {
         List<Skin> list = new ArrayList<>();
         String perm = "cc.marshal";
-        String name = "§6&lMarshal";
+        String name = "§6Marshal";
 
 
 
@@ -103,7 +104,7 @@ public class MarshalSkins implements SkinLoader {
                 perm));
 
 
-
+        list.forEach(r -> r.setRank(Rank.MARSHAL));
 
         return list;
 

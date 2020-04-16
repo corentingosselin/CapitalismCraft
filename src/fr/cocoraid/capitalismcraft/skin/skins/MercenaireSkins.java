@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -15,7 +16,7 @@ public class MercenaireSkins implements SkinLoader {
 
         List<Skin> list = new ArrayList<>();
         
-        String name = "&aMercenaire";
+        String name = "§aMercenaire";
         String perm = "cc.mercenaire";
 
 
@@ -87,7 +88,7 @@ public class MercenaireSkins implements SkinLoader {
                 "eyJ0aW1lc3RhbXAiOjE1NzE0NzQ4OTE1MjYsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2U5NTEyODhmM2VlZWVhZGFhODY3ODg2YWVlY2ViMTEyZGViMTRjZjM1MTgyZjVjM2VhODU4YWZlOGFjOWUwMGEiLCJtZXRhZGF0YSI6eyJtb2RlbCI6InNsaW0ifX19fQ==",
                 "ryVzK3NBypVY8Xdp9sYcFN/wsHXV1rtZ/UlVrXkk0NlEqOCuS9bGgnVCa/9Sm5oREUmwFp+1qcALURsYleaYA5J4hDymIIK7GETcUaN+tnuM+KxE5eISuPJbGCW0Wjp5rvWnnO1yWhh1Kfg5mB2Bh+Wxpu2xIVYnH2vFEpGcEhtvKUr4TL5Tq7xpuL6RsGHoigd3Vh203WaJshvaBMlmzdzxUxizsb6J7xjrXCbK3TK5FITUTKbHzA/LOQEDbRmGyBnaKltOYnrvcyZx7Hp9xnWdUrH7BQnI/+3Szxmm0qBYzCTS05ZcD202SIpoGQW96/l0Esije8jPAmiXajbBC2jiuHAN5dw5WfjqZLSRbEc6apWa6eXQ65oorGIoIwW+5yqB+qxIy03PWjAyEtPW+zlZLzfsZMHfvv1nD9nJMHePHSjb2U5cpyYO5CsdxDGY8cvg14jcdjNQPj2QY352xR3V9ChHK+5eMb0dFpATmOVdiHy23h33pMQVAuonI5I27fXWXrrWOgNhl6Chysl8EZr/hR6PLXsu928V9zJx3QLZ2lEQEhhHl+i8sbLJiogoiir/rWMBOKBjTLfMuRQms5oDRA6wwiNeKC5rwTb3NGRnCdgCLfTQPppYLFXd8PdQMcmGCh04LtNLdUFVyoHuttZd3yIqaykLDuA5pzVMm4w=",
                 perm));
-
+        list.forEach(r -> r.setRank(Rank.MERCENAIRE));
 
         return list;
     }

@@ -1,20 +1,61 @@
 package fr.cocoraid.capitalismcraft.utils;
 
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Utils {
+
+
+
+    public static void sendMessageCommand(Player p, String msg, String cmd) {
+        TextComponent message = new TextComponent(msg );
+        message.setClickEvent( new ClickEvent( ClickEvent.Action.RUN_COMMAND, "/" + cmd));
+        p.spigot().sendMessage( message );
+    }
+
+
+    public static ItemStack setItemGlow(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        item.addUnsafeEnchantment(Enchantment.LUCK, 1);
+        return item;
+    }
+
+    public static ItemStack createSkull(String displayname, List<String> lores, String url) {
+        ItemStack item = skullTextured(url);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(displayname);
+        meta.setLore(lores);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack skullTextured( String base64) {
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+        UUID hashAsId = new UUID(base64.hashCode(), base64.hashCode());
+        ItemStack newItem = Bukkit.getUnsafe().modifyItemStack(item,
+                "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + base64 + "\"}]}}}"
+        );
+        newItem.setItemMeta(item.getItemMeta());
+        return newItem;
+    }
 
     public static void sendActionBar(Player p, String msg) {
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(msg));

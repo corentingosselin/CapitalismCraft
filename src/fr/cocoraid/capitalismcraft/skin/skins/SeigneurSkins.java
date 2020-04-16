@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -41,7 +42,7 @@ public class SeigneurSkins implements SkinLoader {
 
         //https://mineskin.org/826311168
         list.add(new Skin(maleName, Gender.MALE, SkinRarity.EXTRA,
-                "Q3CDt+IXIBjuOll2Wu0/fAQ7rKzDfMbKaIWH9/rBVK6KccqpmxqAhStcQViydQ3inUpCtylyY6ARXPSMzMnSinO/V9KkiVF92FqtkKeeZzf/zLMkJcMzYex7J4cMgyyEhFrTRw/EOdlAAP7qR1EJc9tWPFKTdQMPuxRaEIbzuf0USOks7LRhGwTeri2exjNdQ8gTNcEczchqagE1QIiSsMgwXrr1tSwtTHpN+EgdkeM03420sdGwGb8WuvuHNuIFG9t+FAwx6XfbPD9hf91NwtxddlIrgA9TNZUK3pqz5Lz4gESf0wp7L+N91bLNdHJqFexGJYIdcS+JwYxzdbgb74eQN+aXSms6bv/T3TNgE2hgZ38y7F5G1EoF9obhqTcGwKvCBjljWmXlAaGSZrnCBXqR+dqf56iJ9kb0KXwG/qRxZ2hJAUXVw2u9XUpAsfzDbuBT03+H71fazoFusiuZel3OIl9xLDypkjYH89E5m8RhkxDuOmvQo1cb0jmjaohb6nWiz0oAbrFieE9J9BBftzWYwjAn2t2VMHd+lhOO/29sHGd1fsFhCGIG8oJp/BfZyRBlWVxvCftRZx51utBQyQjbRtdBn+GMYi+0lqntpF2UcF8FnFIa42FmgKdQpySDeKKol9cKF+xUVSgbT2vA0aj6YccvRg458Pcs4NJ2yd8=",
+                "eyJ0aW1lc3RhbXAiOjE1ODY4NjgzODY1NzYsInByb2ZpbGVJZCI6ImIwZDczMmZlMDBmNzQwN2U5ZTdmNzQ2MzAxY2Q5OGNhIiwicHJvZmlsZU5hbWUiOiJPUHBscyIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzk0Zjc0OTA4MjQ5ZGQ3MjE4NmZjZWQ2NmYwNjQ2MDI4MDI5YTYxMDkxYzU4NjBjZmM3ZjcwZjJhMzZkNjQzOCIsIm1ldGFkYXRhIjp7Im1vZGVsIjoic2xpbSJ9fX19",
                 "OiBwxjKDgmNjFPJJgTy/+Jm0NGLEvai4/9d4VX0tQqqnq8Co3dbOC3PEQvs+GPw82Sbbt9K/JUq9hSkjRRTlTKmXdsEFm5XOSWlTPz8Aj7pHPSCwofwL6Cy1xgXhZ6+rrYJx85lcCaPOULfo9fIPCM8AP2AdAV/IPCs32+dLtJM6ttRV2fVaIihvh3R1MHtLAKLkdkD4PxDds46/C2eADK2+r2gYMHczS4gWWdUYMdBVCI+BzUS3Nt9beyuEFLqJPQhcVTvlGwm5lF3X9PFOwOlmnOgNgBQKjbaqUdPH/LALFavmeM95nWh9nMHH3zXVj38dfcOHFfdqnKnnFoEs9Av4AMN4bO20XARDTk9mc1S34zWXZDCIPsZzrOII6wqRkx06MZf/MDRoNzMXA0+SRWN+sKm47uWfBoMuaEZuHwPVI0pAKXYUIeMoSOZou6kXDYHJhaHj8/Mw6m7c/NbjFlh5ok0tHBhTreMOHWTh07qT6y8co9JWDUvaqDx4OFJKoJStGHmpSMGHfDJL96K3Op4ejhwcE/qY7IgrjzVqIXXLkK+k7DC20AzqnI+AdlWpqfe1ci5dXoc2yJnu3xW6sS7f2ZMFmUAGz0O0az/Ohe2vUn560bH/QVVZMMKyxvUHd6QizF8ydqHDGcvEdZ1cipUdBUR6akk6w5Sx9UVN7RA=",
                 perm
         ));
@@ -93,6 +94,7 @@ public class SeigneurSkins implements SkinLoader {
                 perm
         ));
 
+        list.forEach(r -> r.setRank(Rank.SEIGNEUR));
 
         return list;
     }

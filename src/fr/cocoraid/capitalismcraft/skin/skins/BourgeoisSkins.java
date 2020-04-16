@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -101,6 +102,7 @@ public class BourgeoisSkins implements SkinLoader {
                 perm));
 
 
+        list.forEach(r -> r.setRank(Rank.BOURGEOIS));
         return list;
     }
 }

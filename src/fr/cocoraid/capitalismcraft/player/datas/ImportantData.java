@@ -13,7 +13,9 @@ public class ImportantData extends PlayerData {
     private transient final static String SECTION = ImportantData.class.getSimpleName().replace("Data", "").toLowerCase() + ".";
 
     private List<Integer> skinsPurchased = new ArrayList<>();
+    private List<Integer> giftedSkins = new ArrayList<>();
     private Gender gender = Gender.UNDETERMINED;
+    private int currentSkin;
 
     public ImportantData(Player p) {
         super(p);
@@ -23,13 +25,41 @@ public class ImportantData extends PlayerData {
         return skinsPurchased;
     }
 
+    public List<Integer> getGiftedSkins() {
+        return giftedSkins;
+    }
+
+    public void setCurrentSkin(int currentSkin) {
+        this.currentSkin = currentSkin;
+        set(SECTION + "currentSkin", currentSkin);
+    }
+
     public void addPurchasedSkin(Skin skin) {
         skinsPurchased.add(skin.getId());
-        set(SECTION + "purchased-skins", skinsPurchased);
+        set(SECTION + "skinsPurchased", skinsPurchased);
+    }
+
+    public void addPurchasedSkin(int id) {
+        skinsPurchased.add(id);
+        set(SECTION + "skinsPurchased", skinsPurchased);
+    }
+
+    public void addGiftedSkin(Skin skin) {
+        giftedSkins.add(skin.getId());
+        set(SECTION + "giftedSkins", giftedSkins);
+    }
+
+    public void removeGiftedSkin(int id) {
+        giftedSkins.remove(id);
+        set(SECTION + "giftedSkins", giftedSkins);
     }
 
     public Gender getGender() {
         return gender;
+    }
+
+    public int getCurrentSkin() {
+        return currentSkin;
     }
 
     public void setGender(Gender gender) {

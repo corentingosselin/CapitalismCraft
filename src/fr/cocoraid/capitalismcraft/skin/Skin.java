@@ -1,6 +1,11 @@
 package fr.cocoraid.capitalismcraft.skin;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
+import fr.cocoraid.capitalismcraft.utils.Utils;
+import org.bukkit.inventory.ItemStack;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -8,12 +13,13 @@ public class Skin {
 
     private static List<Skin> skins = new ArrayList<>();
 
+    private Rank rank;
     private int id = -1;
     private String displayName;
     private Gender gender;
     private String textureValue;
     private String textureSignature;
-    private String headTexture;
+    private ItemStack headDisplay;
     private SkinRarity rarity;
     private String requiredPermission;
 
@@ -30,12 +36,19 @@ public class Skin {
         //find head texture with the skin texture value
         String decoded = new String(Base64.getDecoder().decode(textureValue));
         decoded = "{" + decoded.replaceFirst(".*(?=\"textures\")", "");
-        this.headTexture = new String(Base64.getEncoder().encode(decoded.getBytes()));
+        String headTexture = new String(Base64.getEncoder().encode(decoded.getBytes()));
+        this.headDisplay = Utils.createSkull(displayName, Arrays.asList("§fPrix: §2" + rarity.getPrice() + " $", "§fPrix IRL: §6" + rarity.getRealPrice() + " €"), headTexture);
         skins.add(this);
     }
 
 
+    public Rank getRank() {
+        return rank;
+    }
 
+    public void setRank(Rank rank) {
+        this.rank = rank;
+    }
 
     public Gender getGender() {
         return gender;
@@ -67,5 +80,9 @@ public class Skin {
 
     public static List<Skin> getSkins() {
         return skins;
+    }
+
+    public ItemStack getHeadDisplay() {
+        return headDisplay;
     }
 }

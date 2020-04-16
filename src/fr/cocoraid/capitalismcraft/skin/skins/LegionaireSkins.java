@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -53,6 +54,8 @@ public class LegionaireSkins implements SkinLoader {
                 "eyJ0aW1lc3RhbXAiOjE1ODY4NjgxOTA4NzcsInByb2ZpbGVJZCI6ImVkNTNkZDgxNGY5ZDRhM2NiNGViNjUxZGNiYTc3ZTY2IiwicHJvZmlsZU5hbWUiOiJGbGF3Q3JhQm90Iiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8xN2Y1ZDMwY2EzMjk2ZWYxZDQ1OGViOGFiZmM2MGJlODkyZjM2YmRmYmQzNzU3MDdkMDZmNjU2NDgzMWFjMzk5IiwibWV0YWRhdGEiOnsibW9kZWwiOiJzbGltIn19fX0=",
                 "o4vGY9o7litOUdT2nV4WMPkV7bqg7y7No7/N4X0JiI+iR/55A7HlbJnHWveVFI2gTQlJ96H4VzfdDdCCSgIjAMBDcQvBmc6So8ENJ55TyeXfMES9iH0A523UGoAz5yQm503EXDdmqBFZiyPN/Kni/7OSAHE0m5VXn6Bbk6fv9Yfho6PA612gBhW6gfATFDl3PBaah71AVppMwgAfmjxaaynQYpEnGYiWOPSTMHEiiFfuZTELMSSXxXk0SUcLClLLPctdzVEkEDLS/Ek95Hf9JIdo6VAwM9OCdkaL8ROkC0wpXzTxTPgXaJb3a/42DoIAkBwqp3sVJVxmPYTCIQDQyezdpuUL/WvAda4DPbWBA+nbhvcR9SzcKTYw4Rrr4gzP8iYMh21brFaMnkN3U+PaHLzO7paOyetBzCgL/YtzTUptr0rOOi4sJWgO4slj4AhRoTHNFMR1uIVF9lx5vfTEOIBX1WGq7Orj5YhOPgKTUrc9EfJ1A2ATRmq6luOIEG75QCR8HhHN/iBqWdotFevEy9wSLJ0OqlbGRm6CRBJu1wD4Jk4l+6zEXbh8MbpCz0gyQEasF1Tq7KDmt4qIt5IABfRdvKC43Wfp9gWRvksPxeL86Q3J7EcrrgzUn2VS3mivR9lSC5tED9DQgb/voXBCqZ/pglBLqeQ8u5i6ONXfbuI=",
                 perm));
+
+        list.forEach(r -> r.setRank(Rank.LEGIONAIRE));
         return null;
     }
 }

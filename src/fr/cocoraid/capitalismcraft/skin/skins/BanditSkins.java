@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -95,6 +96,8 @@ public class BanditSkins implements SkinLoader {
                 "eyJ0aW1lc3RhbXAiOjE1NjU1OTU1MTI4MzcsInByb2ZpbGVJZCI6ImZkNjBmMzZmNTg2MTRmMTJiM2NkNDdjMmQ4NTUyOTlhIiwicHJvZmlsZU5hbWUiOiJSZWFkIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mYjZhZDdhZmM2M2YzNWQwZTA3OGM2MWJhMmE5OTY4ODA4ZmY0ZGJiYzJjY2E3MTBiYWI5ZmVhYmQwOWY3NmJkIiwibWV0YWRhdGEiOnsibW9kZWwiOiJzbGltIn19fX0=",
                 "ddEBxiLtG6FIenatBXQVW6gXS6ndicRFJ0oZflzxKMVSEUGymCuKmBRTg1szBl5SHODEXIOCqA4CLKsBtc8XAci8DFyTYzNjUVUKOdnwqHni6briVJgjf0BP0quSNzFX",
                 perm));
+
+        list.forEach(r -> r.setRank(Rank.BANDIT));
 
         return list;
     }

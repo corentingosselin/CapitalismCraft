@@ -19,13 +19,13 @@ public class JoinLeaveEvent implements Listener {
     @EventHandler
     public void join(PlayerJoinEvent e) {
         new CapitalistPlayer(e.getPlayer());
-        //instance.getPlayerDatabase().registerPlayer(e.getPlayer());
+        instance.getPlayerDatabase().registerPlayer(e.getPlayer());
 
     }
 
     @EventHandler
     public void leave(PlayerQuitEvent e) {
-       // CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).unregister();
+        CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).unregister();
         CapitalistPlayer.getCapitalistPlayers().remove(e.getPlayer().getUniqueId());
     }
 
