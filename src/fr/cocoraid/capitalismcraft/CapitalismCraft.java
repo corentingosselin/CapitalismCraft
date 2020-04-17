@@ -5,6 +5,7 @@ import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
 import fr.cocoraid.capitalismcraft.bridges.WorldGuardBridge;
 import fr.cocoraid.capitalismcraft.listeners.JoinLeaveEvent;
 import fr.cocoraid.capitalismcraft.listeners.NaturalSpawnEvent;
+import fr.cocoraid.capitalismcraft.nms.CustomMinecartFurnace;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.player.PlayerDatabase;
 import fr.cocoraid.capitalismcraft.ranks.RankRegisterer;
@@ -28,7 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CapitalismCraft extends JavaPlugin {
 
-    private final static boolean TEST_MODE = false;
+    private final static boolean TEST_MODE = true;
 
     private static CapitalismCraft instance;
     private WorldGuardBridge worldGuardBridge;
@@ -48,6 +49,7 @@ public class CapitalismCraft extends JavaPlugin {
         if (!EconomyBridge.setupEconomy()) {
             setEnabled(false);
             getLogger().warning("Vault with a compatible economy plugin was not found!");
+            return;
         }
 
         if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
@@ -58,13 +60,14 @@ public class CapitalismCraft extends JavaPlugin {
         //Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("build"),31,52,41,0,0),
         //      new Location(Bukkit.getWorld("build"),-31,74,135,0,0) ));
 
-        if(TEST_MODE)
-            Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("world"),25,10,40,0,0),
-                    new Location(Bukkit.getWorld("world"),12,4,27,0,0) ));
-        else
+        if(TEST_MODE) {
+            //Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("world"), 25, 10, 40, 0, 0),
+              //      new Location(Bukkit.getWorld("world"), 12, 4, 27, 0, 0)));
+
+        } else
             new SceneEffectTask().runTaskTimerAsynchronously(instance,0,0);
 
-        Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
+       // Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
         new TimeIsMoney(this);
         new RankRegisterer(this);
 
@@ -102,13 +105,13 @@ public class CapitalismCraft extends JavaPlugin {
         if(sender instanceof Player) {
             Player p = (Player) sender;
 
-            CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(p);
-            if(cp.getPlayerdata().getGender() == Gender.UNDETERMINED) {
+           CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(p);
+          /*   if(cp.getPlayerdata().getGender() == Gender.UNDETERMINED) {
                 cp.getPlayer().closeInventory();
                 GenderInventory.INVENTORY.open(cp.getPlayer());
                 return false;
             }
-            RankSkinInventory.INVENTORY.open(p);
+            RankSkinInventory.INVENTORY.open(p);*/
 
 
             if(args.length == 1) {
@@ -125,6 +128,10 @@ public class CapitalismCraft extends JavaPlugin {
                 } else if(args[0].equalsIgnoreCase("build")) {
                     if(p.hasPermission("cc.builder") || p.getName().equalsIgnoreCase("Pierrot529")) {
                         p.teleport(new Location(Bukkit.getWorld("build"), 0, 60 , 0));
+                    }
+                } else if(args[0].equalsIgnoreCase("mf")) {
+                    if(p.hasPermission("cc.builder")) {
+                        new CustomMinecartFurnace(p.getLocation()).spawn(p.getLocation());
                     }
                 }
             }
