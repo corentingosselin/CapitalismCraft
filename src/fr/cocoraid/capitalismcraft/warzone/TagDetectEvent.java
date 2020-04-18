@@ -1,11 +1,13 @@
 package fr.cocoraid.capitalismcraft.warzone;
 
 import fr.cocoraid.capitalismcraft.CapitalismCraft;
+import fr.cocoraid.capitalismcraft.area.Area;
+import fr.cocoraid.capitalismcraft.area.event.AreaEnterEvent;
+import fr.cocoraid.capitalismcraft.area.event.AreaQuitEvent;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.utils.Utils;
-import fr.cocoraid.capitalismcraft.warzone.event.EnterSafezoneEvent;
-import fr.cocoraid.capitalismcraft.warzone.event.EnterWarzoneEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -66,13 +68,17 @@ public class TagDetectEvent implements Listener {
     }
 
 
+    private Area area;
 
     private String world = "world";
     private CapitalismCraft instance;
     public TagDetectEvent(CapitalismCraft instance) {
         this.instance = instance;
         new RecentHitResetTask().runTaskTimerAsynchronously(instance,0,20*4);
-        new Safezone().runTaskTimer(instance,0,10);
+        this.area = new Area(
+                new Location(Bukkit.getWorld("build"),31,52,41,0,0),
+                new Location(Bukkit.getWorld("build"),-31,74,135,0,0)
+        );
     }
 
 
@@ -83,7 +89,7 @@ public class TagDetectEvent implements Listener {
         if(e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             //allow pvp
-            if(Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
+            if(area.getEntered().contains(p.getUniqueId())) {
                 e.setCancelled(false);
             }
         }
@@ -92,7 +98,7 @@ public class TagDetectEvent implements Listener {
 
     public List<Player> getAllPlayersInSafeZone() {
         return Bukkit.getOnlinePlayers().stream().filter(cur ->  cur.getWorld().getName().equalsIgnoreCase(world))
-                .filter(cur -> !Safezone.getEnteredPVPZonePlayers().contains(cur.getUniqueId())).collect(Collectors.toList());
+                .filter(cur -> !area.getEntered().contains(cur.getUniqueId())).collect(Collectors.toList());
     }
 
 
@@ -106,7 +112,7 @@ public class TagDetectEvent implements Listener {
         cp.setTagged(true);
         if(!resend) {
             //si le joueur est à l'extérieur il devient rouge pour tous les joueurs en dehors de la zone pvp
-            if(!Safezone.getEnteredPVPZonePlayers().contains(player.getUniqueId()))
+            if(!area.getEntered().contains(player.getUniqueId()))
                 GlowAPI.setGlowing(player, GlowAPI.Color.RED, getAllPlayersInSafeZone());
 
             Utils.sendActionBar(player,"§cVous êtes désormais en mode pvp !");
@@ -142,11 +148,11 @@ public class TagDetectEvent implements Listener {
             Player p = (Player) e.getEntity();
             CapitalistPlayer victimCapitalist = CapitalistPlayer.getCapitalistPlayer(p);
 
-            if(Safezone.getEnteredPVPZonePlayers().contains(p.getUniqueId())) {
+            if(area.getEntered().contains(p.getUniqueId())) {
                 if(e.getDamager() instanceof Player) {
                     Player damager = (Player) e.getDamager();
                     //si les 2 sont dans la zone pvp
-                    if (Safezone.getEnteredPVPZonePlayers().contains(damager.getUniqueId())) {
+                    if (area.getEntered().contains(damager.getUniqueId())) {
                         e.setCancelled(false);
                         updatePlayerToSlow(p, damager);
                         CapitalistPlayer damagerCapitalist = CapitalistPlayer.getCapitalistPlayer(damager);
@@ -163,7 +169,7 @@ public class TagDetectEvent implements Listener {
                     Arrow arrow = (Arrow) e.getDamager();
                     if(arrow.getShooter() instanceof Player) {
                         Player damager = (Player) arrow.getShooter();
-                        if(!Safezone.getEnteredPVPZonePlayers().contains(damager.getUniqueId())) {
+                        if(!area.getEntered().contains(damager.getUniqueId())) {
 
                             e.setCancelled(true);
                         }
@@ -212,12 +218,14 @@ public class TagDetectEvent implements Listener {
     }
 
     @EventHandler
-    public void exitPVP(EnterSafezoneEvent e) {
+    public void exitPVP(AreaQuitEvent e) {
+        if(!e.getArea().equals(area)) return;
+
         List<Player> list = new ArrayList<>();
 
         //send other glow
         CapitalistPlayer.getCapitalistPlayers().values().stream()
-                .filter(cp -> cp.isTagged() && Safezone.getEnteredPVPZonePlayers().contains(cp.getPlayer().getUniqueId()))
+                .filter(cp -> cp.isTagged() && area.getEntered().contains(cp.getPlayer().getUniqueId()))
                 .forEach(cp -> list.add(cp.getPlayer()));
         if(!list.isEmpty()) {
             GlowAPI.setGlowing(list, GlowAPI.Color.RED, e.getPlayer());
@@ -243,7 +251,8 @@ public class TagDetectEvent implements Listener {
 
 
     @EventHandler
-    public void enterPvp(EnterWarzoneEvent e) {
+    public void enterPvp(AreaEnterEvent e) {
+        if(!e.getArea().equals(area)) return;
         //si le joueur a été touché
         if(CapitalistPlayer.getCapitalistPlayer(e.getPlayer()).isTagged()) {
             GlowAPI.setGlowing(e.getPlayer(),false, Bukkit.getOnlinePlayers());

@@ -1,20 +1,26 @@
-package fr.cocoraid.capitalismcraft.warzone.event;
+package fr.cocoraid.capitalismcraft.area.event;
 
+import fr.cocoraid.capitalismcraft.area.Area;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class EnterSafezoneEvent extends Event {
+public class AreaQuitEvent extends Event {
 
     private Player player;
+    private Area area;
 
-    public EnterSafezoneEvent(Player player) {
+    public AreaQuitEvent(Area area, Player player) {
         this.player = player;
+        this.area = area;
 
     }
-
     public Player getPlayer() {
         return this.player;
+    }
+
+    public Area getArea() {
+        return area;
     }
 
     private static final HandlerList handlers = new HandlerList();

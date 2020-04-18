@@ -1,11 +1,11 @@
 package fr.cocoraid.capitalismcraft.skin.inventory;
 
+import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
-import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
+import fr.cocoraid.capitalismcraft.skin.loader.SkinManager;
 import fr.cocoraid.capitalismcraft.utils.Heads;
-import fr.cocoraid.capitalismcraft.utils.Utils;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -14,13 +14,14 @@ import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class YourSkinsInventory  implements InventoryProvider {
 
-
+    private static SkinManager skinManager = CapitalismCraft.getInstance().getSkinManager();
 
     public final static SmartInventory INVENTORY = SmartInventory.builder()
             .id("yourSkinsInv")
@@ -37,20 +38,32 @@ public class YourSkinsInventory  implements InventoryProvider {
         Pagination pagination = contents.pagination();
         Gender gender =  cp.getPlayerdata().getGender();
         List<Skin> skins = Skin.getSkins().stream()
-                .filter(s -> cp.getPlayerdata().getSkinsPurchased().contains(s.getId()))
+                .filter(s -> player.hasPermission("cc.admin") || cp.getPlayerdata().getSkinsPurchased().contains(s.getId()))
+                .filter(s -> s.getId() != cp.getPlayerdata().getCurrentSkin())
                 .filter(s -> s.getGender() == gender)
                 .collect(Collectors.toList());
         ClickableItem[] items = new ClickableItem[skins.size()];
         for (int i = 0; i < items.length; i++) {
             Skin skin = skins.get(i);
-            if(skin.getId() == cp.getPlayerdata().getCurrentSkin()) {
-                ItemStack glowed = Utils.setItemGlow(skin.getHeadDisplay().clone());
-                items[i] = ClickableItem.empty(glowed);
-            } else {
+
+
                 items[i] = ClickableItem.of(skin.getHeadDisplay(), e -> {
-                    //apply
+                    player.closeInventory();
+                    if(System.currentTimeMillis() < (cp.getLastTimeSkinChanged() + (1000 * 60 * 30)) && cp.getLastTimeSkinChanged() != 0) {
+                        player.sendMessage("§4Erreur: §cNous somme navré, le changement de skin n'est autorisé que toutes les 30 minutes...");
+                        return;
+                    }
+                    cp.setLastTimeSkinChanged(System.currentTimeMillis());
+
+                    cp.getPlayerdata().setCurrentSkin(skin.getId());
+                    skinManager.setSkin(skin,player);
+                    skinManager.updatePlayerSkin(player);
+                    player.sendMessage("§3Votre skin a été modifié avec succès !");
+
                 });
+
             }
+
 
             pagination.setItems(items);
             pagination.setItemsPerPage(14);
@@ -62,16 +75,25 @@ public class YourSkinsInventory  implements InventoryProvider {
 
 
             if(!pagination.isFirst()) {
-                contents.set(4, 3, ClickableItem.of(Heads.ARROW_LEFT,
+                contents.set(4, 2, ClickableItem.of(Heads.ARROW_LEFT,
                         e -> INVENTORY.open(player, pagination.previous().getPage())));
+            }
+
+            if(cp.getPlayerdata().getCurrentSkin() != -1) {
+                ItemStack item = Skin.getSkins().get(cp.getPlayerdata().getCurrentSkin()).getHeadDisplay().clone();
+                ItemMeta meta = item.getItemMeta();
+                meta.setDisplayName("§2Vous portez ce skin");
+                meta.setLore(null);
+                item.setItemMeta(meta);
+                contents.set(4,4, ClickableItem.empty(item));
             }
 
 
             if(!pagination.isLast()) {
-                contents.set(4, 5, ClickableItem.of(Heads.ARROW_RIGHT,
+                contents.set(4, 6, ClickableItem.of(Heads.ARROW_RIGHT,
                         e -> INVENTORY.open(player, pagination.next().getPage())));
             }
-        }
+
     }
 
     @Override

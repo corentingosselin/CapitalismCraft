@@ -1,10 +1,14 @@
 package fr.cocoraid.capitalismcraft.skin.inventory;
 
+import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.ranks.Rank;
+import fr.cocoraid.capitalismcraft.shop.ShopType;
+import fr.cocoraid.capitalismcraft.shop.shops.particle.SkinShop;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.utils.Heads;
+import fr.cocoraid.capitalismcraft.utils.Utils;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -12,6 +16,8 @@ import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +35,6 @@ public class SkinPurchaseInventory implements InventoryProvider {
 
     private Rank rank;
     public SkinPurchaseInventory(Rank rank) {
-
         this.rank = rank;
     }
 
@@ -49,35 +54,46 @@ public class SkinPurchaseInventory implements InventoryProvider {
         ClickableItem[] items = new ClickableItem[skins.size()];
         for (int i = 0; i < items.length; i++) {
             Skin skin = skins.get(i);
-            items[i] = ClickableItem.of(skin.getHeadDisplay(), e -> {
+            ItemStack item = Utils.addLore(skin.getHeadDisplay().clone(),
+                    " ","§a§nClick gauche: ", "§f Prévisualiser le skin", " " , "§2§nClick droit: " , "§f Acheter le skin");
+
+            items[i] = ClickableItem.of(item, e -> {
+                if(e.getClick() == ClickType.LEFT) {
+                    PurchaseConfirmInventory.getInventory(skin.getId(), skin.getRarity().getPrice(), skin.getHeadDisplay()).open(player);
+                } else if(e.getClick() == ClickType.RIGHT) {
+                    SkinShop shop = (SkinShop) CapitalismCraft.getInstance().getShopManager().getShop(ShopType.SKIN);
+                    shop.initModel(player,skin);
+                }
                 //open confirm purchase
-                PurchaseConfirmInventory.getInventory(skin.getId(),skin.getRarity().getPrice(),skin.getHeadDisplay()).open(player);
+
+
             });
-
-            pagination.setItems(items);
-            pagination.setItemsPerPage(14);
-
-            SlotIterator si =contents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 1);
-            si.blacklist(1,8);
-            si.blacklist(2,0);
-            pagination.addToIterator(si);
-
-
-            if(!pagination.isFirst()) {
-                contents.set(4, 3, ClickableItem.of(Heads.ARROW_LEFT,
-                        e -> getInventory(rank).open(player, pagination.previous().getPage())));
-            } else {
-                contents.set(4, 3, ClickableItem.of(Heads.ARROW_LEFT,
-                        e -> {
-                            RankSkinInventory.INVENTORY.open(player);
-                        }));
-            }
-
-            if(!pagination.isLast()) {
-                contents.set(4, 5, ClickableItem.of(Heads.ARROW_RIGHT,
-                        e -> getInventory(rank).open(player, pagination.next().getPage())));
-            }
         }
+
+        pagination.setItems(items);
+        pagination.setItemsPerPage(14);
+
+        SlotIterator si =contents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 1);
+        si.blacklist(1,8);
+        si.blacklist(2,0);
+        pagination.addToIterator(si);
+
+
+        if(!pagination.isFirst()) {
+            contents.set(4, 3, ClickableItem.of(Heads.ARROW_LEFT,
+                    e -> getInventory(rank).open(player, pagination.previous().getPage())));
+        } else {
+            contents.set(4, 3, ClickableItem.of(Heads.ARROW_LEFT,
+                    e -> {
+                        RankSkinInventory.INVENTORY.open(player);
+                    }));
+        }
+
+        if(!pagination.isLast()) {
+            contents.set(4, 5, ClickableItem.of(Heads.ARROW_RIGHT,
+                    e -> getInventory(rank).open(player, pagination.next().getPage())));
+        }
+
     }
 
     @Override

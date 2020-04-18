@@ -15,7 +15,7 @@ public class ImportantData extends PlayerData {
     private List<Integer> skinsPurchased = new ArrayList<>();
     private List<Integer> giftedSkins = new ArrayList<>();
     private Gender gender = Gender.UNDETERMINED;
-    private int currentSkin;
+    private int currentSkin = -1;
 
     public ImportantData(Player p) {
         super(p);

@@ -2,6 +2,8 @@ package fr.cocoraid.capitalismcraft.player;
 
 import fr.cocoraid.capitalismcraft.database.LocalDatabase;
 import fr.cocoraid.capitalismcraft.player.datas.ImportantData;
+import fr.cocoraid.capitalismcraft.player.datas.NormalData;
+import fr.cocoraid.capitalismcraft.shop.shops.particle.SkinDemo;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -14,13 +16,16 @@ public class CapitalistPlayer {
 
 
     private ImportantData playerdata;
+    private NormalData normalData;
 
 
 
     private boolean emperorTargetedByMonsters = false;
 
+    private SkinDemo skinDemo;
 
     private static Map<UUID, CapitalistPlayer> capitalistPlayers = new HashMap();
+    private long lastTimeSkinChanged = 0;
     private boolean tagged;
     private boolean recentHit;
     private Player lastDamager;
@@ -93,9 +98,24 @@ public class CapitalistPlayer {
     }
 
 
+    public void setSkinDemo(SkinDemo skinDemo) {
+        this.skinDemo = skinDemo;
+    }
+
+    public SkinDemo getSkinDemo() {
+        return skinDemo;
+    }
 
     public void unregister() {
         //uncache not important data only
+    }
+
+    public void setLastTimeSkinChanged(long lastTimeSkinChanged) {
+        this.lastTimeSkinChanged = lastTimeSkinChanged;
+    }
+
+    public long getLastTimeSkinChanged() {
+        return lastTimeSkinChanged;
     }
 
     public void setPlayerdata(ImportantData playerdata) {

@@ -76,15 +76,14 @@ public class PurchaseConfirmInventory  implements InventoryProvider {
                 cp.getPlayerdata().addPurchasedSkin(skinID);
                 player.closeInventory();
                 player.sendMessage("§bMerci pour votre achat !");
-                Utils.sendMessageCommand(player,"§3Cliquez §nICI pour mettre votre nouveau skin","cc skinapply " + skinID);
+                Utils.sendMessageCommand(player,"§3Cliquez §nICI pour mettre votre nouveau skin","skin apply " + skinID);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
             } else {
                 if (EconomyBridge.hasMoney(player, price)) {
                     EconomyBridge.takeMoneySilent(player,price);
                     player.closeInventory();
                     player.sendMessage("§bMerci pour votre achat ! §2Solde restant: " + EconomyBridge.getMoney(player));
-
-                    Utils.sendMessageCommand(player,"§3Cliquez §nICI pour mettre votre nouveau skin","cc skinapply " + skinID);
+                    Utils.sendMessageCommand(player,"§3Cliquez §nICI pour mettre votre nouveau skin","skin apply " + skinID);
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                 } else {
                     player.closeInventory();
