@@ -2,6 +2,7 @@ package fr.cocoraid.capitalismcraft;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.cocoraid.capitalismcraft.area.AreaManager;
+import fr.cocoraid.capitalismcraft.bridges.ChatBridge;
 import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
 import fr.cocoraid.capitalismcraft.bridges.WorldGuardBridge;
 import fr.cocoraid.capitalismcraft.command.CommandManager;
@@ -51,6 +52,12 @@ public class CapitalismCraft extends JavaPlugin {
             setEnabled(false);
             getLogger().warning("Vault with a compatible economy plugin was not found!");
         }
+
+
+       /* if(!ChatBridge.setupChat()) {
+            setEnabled(false);
+            getLogger().warning("Vault with a compatible chat plugin was not found!");
+        }*/
 
         if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
             this.worldGuardBridge = new WorldGuardBridge(this, (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard"));

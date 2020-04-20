@@ -19,7 +19,7 @@ public class ImportantData extends PlayerData {
     private int currentSkin = -1;
     private String lastKnownName;
     private long timeLeftNotify = -1;
-    private LinkedList<String> nameHistory = new LinkedList<>();
+    private List<String> nameHistory = new LinkedList<>();
 
     public ImportantData(Player p) {
         super(p);
@@ -59,7 +59,7 @@ public class ImportantData extends PlayerData {
         set(SECTION + "lastKnownName", lastKnownName);
     }
 
-    public LinkedList<String> getNameHistory() {
+    public List<String> getNameHistory() {
         return nameHistory;
     }
 

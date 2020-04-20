@@ -181,7 +181,7 @@ public class CustomMinecartFurnace extends EntityMinecartFurnace {
 
 
 
-        Vec3D v = getLookDirection();
+       /* Vec3D v = getLookDirection();
         for (int i = 0; i < minecarts.size(); i++) {
             final Entity entity = minecarts.get(i);
             Vec3D mot = entity.getMot();
@@ -195,7 +195,7 @@ public class CustomMinecartFurnace extends EntityMinecartFurnace {
             lastMot = mot;
             lastYaw = yaw;
             lastPitch = pitch;
-        }
+        }*/
 
 
 
