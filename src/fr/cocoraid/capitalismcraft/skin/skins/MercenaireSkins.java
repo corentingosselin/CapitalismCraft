@@ -15,7 +15,7 @@ public class MercenaireSkins implements SkinLoader {
     public List<Skin> loadSkins() {
 
         List<Skin> list = new ArrayList<>();
-        
+
         String name = "§aMercenaire";
         String perm = "cc.mercenaire";
 
@@ -29,7 +29,7 @@ public class MercenaireSkins implements SkinLoader {
 
         //https://mineskin.org/2105273442
         list.add(new Skin(name, Gender.MALE, SkinRarity.RARE,
-                "eyJ0aW1lc3RhbXAiOjE1NjE4NDA4NDMwMzIsInByb2ZpbGVJZCI6ImIwZDRiMjhiYzFkNzQ4ODlhZjBlODY2MWNlZTk2YWFiIiwicHJvZmlsZU5hbWUiOiJ4RmFpaUxlUiIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzgwYjk3YTVmOWY4ZmFhMGVkMzg2NWQwMjY3NWU1ODdmM2IxZGI5NGQxZTA5N2VmYmFkOTUyMWI1ZWM1MTlkZSJ9fX0=",
+                "eyJ0aW1lc3RhbXAiOjE1NzE5MjcwNDczMzksInByb2ZpbGVJZCI6ImU5MjNiYTVkNzQ3YzQ2ZjQ4MTc1Y2Q3YjBlZmMwMzBhIiwicHJvZmlsZU5hbWUiOiJTYXN1a2VkIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS85NzYzNzYzMGVmNTBmYzQxMjliOTZhYjZhODMwMDJiMTMyMjM2YmQ4MWM3OWZjNDI1NWI0ZTE4ZjU3MDZlMGNiIiwibWV0YWRhdGEiOnsibW9kZWwiOiJzbGltIn19fX0=",
                 "r/e+EUrJ9EBQijL5i825Z9Al0VanOMAg08xHk5DwK2ZPvCW/5cJjgsD0DhXoTzQRcgCE446bZm71GdnKBK41C1cLXjDla1Ru38nQvqSE49Aoy3P2I5t9Spmtz2xZ4ro7y4eI4dW5Af0MM4ATUUq/4+f40WRrgQqFBX+SlRCBF0vT4uTezvj/J/Asdx0JWkh0Kdyqc2tmQ4Ul8DeINMlY9ohPMoBdIUsluktR9VBULcwBXNrgxu/Co6eRUUjrrxYuVQMnzAvA3mbEDTeqyzmAGIiYoYaHMKcOn0GJdYVW7swha04sEwtbfBsGosSP5PyV6qwDrFSlm4u7ADYmCdKh3YCT/xYbBQ1ixOCCg+vluN71KYZzwDAOzadMzX5DUfqr4qyA5AOqvmE4VymgbwHEhbLjQUrTZr4/xQ5GhhGqQleeIYCt1ft9iTWs/r8wgfPh3c0VLW033YUNxKnRDwzhGSQp0y3OTXgDZcxohyyfKk+LcAVHqlTDarcRZvJd85dstkqGaUxrmEqvkEvZ8WDzZMkPzFoTiXtOG7FrYoNO9t/KZ/nxcyzLx2pKgOmCIUmt5Z9jZUvIxVkM19t1/3gAAQ3M+sp8B6nhwwdI8qPvfIoYoO+3T/TImxPPFZTtWJFrPZdCaXGtTR3ghJxbN/ZN8Z0AuA9F260cEccP4wDg1lo=",
                 perm));
 
@@ -60,6 +60,11 @@ public class MercenaireSkins implements SkinLoader {
                 "qE0PnNSl85VIMR6jZm1vnvT03hKtSdCV+TmfTllD3Pgq2mjpsg7RYsXbVjaAKONpMG3J+ghpJfl6fj+DRStn1t4Ilqz6oC+fVbjie0ru0PTQ0L8hHqW/cO/coIUwg12mfgOSVG/jClmnzuMVuJHjILwKMPw9NhWpIyaLcE0bZW29AG66sXw/iVq52k6SGp1xiXhOdOiVh5zx3nBFmsz8bQ8yHGfr3bkScSOebEIti0W/sSEldspCXvGSw2jWTGiYKUr7Sna8iUbuNzMQDGoGtrp1rBTLCafSr+rn73XAEBgk8sQPx0t14axBN7hMHRVGz6YG0kdAozr3zhBxgpF0jnq2r9Q/tfm6lyDyc4KLUiYDKZJ2egS+h0ONbIjTpZPTJqsi7ewFV5+NQwQhBpHvwfomV744jYcubou8IxC2xIcPNRVc4+vNe3BKPQl3KvmDmCPYIASyA9hsFXM11dDD2i18EJJ4xNPrBIpDQrcrvQXt8TsZVHv9Mlllsj+emaxeti1PePkArV6na5CIxBikPpGKP+AX0cYar+lfRURzzAaiGFL/2/+O20S7s87efbWymWXq9VGKKm/09M9hnP2Yv5bYFZB6iCLNx1GIbPYJkZWU3DFSDAkhgDcD9gFw4/Iqzc6Cp76XxQST4ODLYkiwlrE3U6gSccN3L9MtC1RHEL8=",
                 perm));
 
+        //https://mineskin.org/279405105
+        list.add(new Skin(name, Gender.MALE, SkinRarity.UNIQUE,
+                "eyJ0aW1lc3RhbXAiOjE1Nzk0MjA2MTE2MjcsInByb2ZpbGVJZCI6ImUzYjQ0NWM4NDdmNTQ4ZmI4YzhmYTNmMWY3ZWZiYThlIiwicHJvZmlsZU5hbWUiOiJNaW5pRGlnZ2VyVGVzdCIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWQ5NzMwMDcyYjk5MTJlZGVjMjBmYzZlOGZlMWI5NWRlZjI2ZWRjY2RjZTdmZDAzNzk4NTE1OGFkNzQ3NGYzZSJ9fX0=",
+                "KiGg6FXHR03xC0fwZ6KibulOJgVSMyR3IDKf/9xL6MvuYZVMWFMCib5XDI5UxzMPfBBYbcNxtzebnVsKSQOYUfHC/hI//eKYeYWAo4A3CJhbk46pTbr/+3oSX0hI+3QOTUMMb9i9/iL+DGzqtDzEIg5QfxvOB5kcyMbpO+RxYlOdvEn8jUZysRpFCQBAZnONXP1g1dnO/IPXqLlUAE8smLIM4o9ZjpKNePp1EmccDLl8QSpBCeeyP8lOJVz8B8jaHBYkTAgHfQOJkl/lupQBJcVZ2Yle8fO3t+yjmA4JcBvP2vXSldVwG2d8g21DiKcuUwId1TVRR3IEwKNF9byU2nqHxdzcphmCscxFl29A9WOFunn6XLDyyyaUaSYZ7tARJHn+Rz3ztRE7y0JKHvzKTzRdkrMmYAjFKAW3t2CM6mkHVgO30SS6yTzOmptHjl3aXW3rR5aD6jd+2gQQ1FlCd8awywlJXteOqfSyGJTAca9PrVIWn1VYwP9gmpNB2MGUJ8yP6DMQb2WGWUEZ/f2cXVx8eZraB7yfh+Okwuwj3YE05vmiB0TFXs27Bk18jPlLFHAh731CzXLG1FOtjZVsrIJuSdrLCb4E5EMnUFIGVZGVNj422IImvnFEgGZp5JLcroQtBEGF4hlilZ8K+Ct33A9haPe69+kr/72n+nIdsRc=",
+                perm));
 
         //women
 

@@ -69,6 +69,7 @@ public class GenderInventory implements InventoryProvider {
                     cp.getPlayerdata().setGender(Gender.MALE);
                     player.closeInventory();
                     player.sendMessage("§bMerci Monsieur ! Vous pouvez désormais choisir votre skin");
+                    player.sendMessage("§bClic à nouveau sur le §6Costumier");
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1,1);
                 }));
 
@@ -77,6 +78,7 @@ public class GenderInventory implements InventoryProvider {
                     cp.getPlayerdata().setGender(Gender.FEMALE);
                     player.closeInventory();
                     player.sendMessage("§bMerci Madame ! Vous pouvez désormais choisir votre skin");
+                    player.sendMessage("§bClic à nouveau sur le §6Costumier");
                     player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1,1);
                 }));
 

@@ -7,3 +7,7 @@ depend: [Multiverse-Core,SmartInvs]
 softdepend: [Vault,EssentialsX, WorldGuard, WorldEdit]
 commands:
   cc:
+  skins:
+  skin:
+  build:
+  emp:

@@ -1,11 +1,19 @@
 package fr.cocoraid.capitalismcraft.task;
 
+import fr.cocoraid.capitalismcraft.utils.Utils;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Evoker;
+import org.bukkit.entity.EvokerFangs;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class SceneEffectTask extends BukkitRunnable {
+public class SceneEffectTask extends BukkitRunnable implements Listener {
 
     private World world = Bukkit.getWorld("build");
+
 
     private final Location[] SMOKE_TRAIN = new Location[2];
     private final Location ELECTRIC_FAIL = new Location(world,-104 + 0.5,60,-8 + 0.5);
@@ -16,13 +24,17 @@ public class SceneEffectTask extends BukkitRunnable {
     }
 
 
-    private int time = 0;
+    public SceneEffectTask() {
 
+
+    }
+
+
+    private int time = 0;
     @Override
     public void run() {
-
         for (Location l : SMOKE_TRAIN) {
-            l.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,l.clone().add(0.5,1,0.5),5,0.01,0.01,0.01,0.05F,null,true);
+            l.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE,l.clone().add(0.5,1,0.5),1,0.01,0.01,0.01,0.05F,null,true);
             l.getWorld().spawnParticle(Particle.SMOKE_LARGE,l.clone().add(0.5,1,0.5),2,0.2,0.5,0.2,0.1F,null,true);
         }
 

@@ -1,11 +1,13 @@
 package fr.cocoraid.capitalismcraft.utils;
 
+import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -15,13 +17,22 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.*;
 
 public class Utils {
 
 
+
+    private static final String DECIMAL_FORMAT = "###,###.#";
+    public static String formatValue(Number value) {
+        DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.ENGLISH);
+        formatSymbols.setDecimalSeparator('.');
+        formatSymbols.setGroupingSeparator(' ');
+        DecimalFormat formatter = new DecimalFormat(DECIMAL_FORMAT, formatSymbols);
+        return formatter.format(value);
+    }
 
     public static void sendMessageCommand(Player p, String msg, String cmd) {
         TextComponent message = new TextComponent(msg );
@@ -30,11 +41,12 @@ public class Utils {
     }
 
 
-    public static ItemStack setItemGlow(ItemStack item) {
+    public static ItemStack addLore(ItemStack item, String... lore) {
         ItemMeta meta = item.getItemMeta();
-        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
+        List<String> lores = meta.getLore();
+        lores.addAll(Arrays.asList(lore));
+        meta.setLore(lores);
         item.setItemMeta(meta);
-        item.addUnsafeEnchantment(Enchantment.LUCK, 1);
         return item;
     }
 
@@ -193,6 +205,20 @@ public class Utils {
     }
 
 
+    public static Entity[] getNearbyEntities(Location l, int radius) {
+        int chunkRadius = radius < 16 ? 1 : (radius - (radius % 16)) / 16;
+        HashSet<Entity> radiusEntities = new HashSet<Entity>();
+        for (int chX = 0 - chunkRadius; chX <= chunkRadius; chX++) {
+            for (int chZ = 0 - chunkRadius; chZ <= chunkRadius; chZ++) {
+                int x = (int) l.getX(), y = (int) l.getY(), z = (int) l.getZ();
+                for (Entity e : new Location(l.getWorld(), x + (chX * 16), y, z + (chZ * 16)).getChunk().getEntities()) {
+                    if (e.getLocation().distance(l) <= radius && e.getLocation().getBlock() != l.getBlock())
+                        radiusEntities.add(e);
+                }
+            }
+        }
+        return radiusEntities.toArray(new Entity[radiusEntities.size()]);
+    }
 
 
 }

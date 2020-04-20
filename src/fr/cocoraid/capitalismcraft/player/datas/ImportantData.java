@@ -6,6 +6,7 @@ import fr.cocoraid.capitalismcraft.skin.Skin;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ImportantData extends PlayerData {
@@ -15,7 +16,10 @@ public class ImportantData extends PlayerData {
     private List<Integer> skinsPurchased = new ArrayList<>();
     private List<Integer> giftedSkins = new ArrayList<>();
     private Gender gender = Gender.UNDETERMINED;
-    private int currentSkin;
+    private int currentSkin = -1;
+    private String lastKnownName;
+    private long timeLeftNotify = -1;
+    private LinkedList<String> nameHistory = new LinkedList<>();
 
     public ImportantData(Player p) {
         super(p);
@@ -37,6 +41,34 @@ public class ImportantData extends PlayerData {
     public void addPurchasedSkin(Skin skin) {
         skinsPurchased.add(skin.getId());
         set(SECTION + "skinsPurchased", skinsPurchased);
+    }
+
+    public void addPreviousName(String name) {
+        nameHistory.add(name);
+        set(SECTION + "nameHistory", nameHistory);
+    }
+
+    public void setTimeLeftNotify(long timeLeftNotify) {
+        this.timeLeftNotify = timeLeftNotify;
+        set(SECTION + "timeLeftNotify", timeLeftNotify);
+
+    }
+
+    public void setLastKnownName(String lastKnownName) {
+        this.lastKnownName = lastKnownName;
+        set(SECTION + "lastKnownName", lastKnownName);
+    }
+
+    public LinkedList<String> getNameHistory() {
+        return nameHistory;
+    }
+
+    public long getTimeLeftNotify() {
+        return timeLeftNotify;
+    }
+
+    public String getLastKnownName() {
+        return lastKnownName;
     }
 
     public void addPurchasedSkin(int id) {
