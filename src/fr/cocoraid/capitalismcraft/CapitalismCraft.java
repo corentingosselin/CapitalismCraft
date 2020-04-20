@@ -29,7 +29,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CapitalismCraft extends JavaPlugin {
 
-    private final static boolean TEST_MODE = true;
+    private final static boolean TEST_MODE = false;
 
     private static CapitalismCraft instance;
     private WorldGuardBridge worldGuardBridge;
