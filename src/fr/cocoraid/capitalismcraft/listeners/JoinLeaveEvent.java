@@ -1,10 +1,12 @@
 package fr.cocoraid.capitalismcraft.listeners;
 
 import fr.cocoraid.capitalismcraft.CapitalismCraft;
+import fr.cocoraid.capitalismcraft.bridges.ChatBridge;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -45,12 +47,18 @@ public class JoinLeaveEvent implements Listener {
                 cp.getPlayerdata().setTimeLeftNotify(System.currentTimeMillis() + 168 * 3600 * 1000);
                 e.getPlayer().sendMessage("§c[§4NOUVEAU PSEUDO§c] Nous avons détecté que vous avez changé de pseudo minecraft");
                 e.getPlayer().sendMessage("§cPar conséquent, les joueurs en seront notifiés pendant 1 semaine, merci de votre compréhension !");
-            } else {
+                e.setJoinMessage("§8(§7Anciennement " + cp.getPlayerdata().getNameHistory().get(cp.getPlayerdata().getNameHistory().size() -1) + "§8)" + e.getJoinMessage());
+
+            }
+            if(!cp.getPlayerdata().getNameHistory().isEmpty()) {
                 if(System.currentTimeMillis() > cp.getPlayerdata().getTimeLeftNotify()) {
+
                     //no need to notify more than 1 week :)
                     cp.getPlayerdata().setTimeLeftNotify(-1);
                 } else {
-                    e.setJoinMessage("§8(§7Anciennement " + cp.getPlayerdata().getNameHistory().getLast() + "§8) " + e.getJoinMessage());
+
+                    e.setJoinMessage("§8(§7Anciennement " + cp.getPlayerdata().getNameHistory().get(cp.getPlayerdata().getNameHistory().size() -1) + "§8) " + e.getJoinMessage());
+
                 }
             }
         }
@@ -63,9 +71,11 @@ public class JoinLeaveEvent implements Listener {
                 List<Skin> skins = Skin.getSkins().stream().filter(s -> s.getRarity() == SkinRarity.DEFAULT).collect(Collectors.toList());
                 Random rand = new Random();
                 Skin randomElement = skins.get(rand.nextInt(skins.size()));
-
-            instance.getSkinManager().setSkin(randomElement,e.getPlayer());
+                instance.getSkinManager().setSkin(randomElement,e.getPlayer());
+                e.getPlayer().sendMessage("§6[Costumier] §etu n'as aucun costume ! utilise /skin pour en choisir un...");
             }
+
+
             return;
         }
         Skin skin = Skin.getSkins().get(cp.getPlayerdata().getCurrentSkin());

@@ -34,6 +34,7 @@ public abstract class PlayerData {
             for (String s : section.getKeys(false)) {
                 Field f = getClass().getDeclaredField(s);
                 f.setAccessible(true);
+
                 if(f.getType().isEnum()) {
                     f.set(this, Enum.valueOf((Class<Enum>) f.getType(), (String) c.get(dataType + "." + s)));
                 } else
