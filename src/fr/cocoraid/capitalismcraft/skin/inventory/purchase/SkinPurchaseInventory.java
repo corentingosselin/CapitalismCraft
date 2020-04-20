@@ -1,12 +1,13 @@
-package fr.cocoraid.capitalismcraft.skin.inventory;
+package fr.cocoraid.capitalismcraft.skin.inventory.purchase;
 
 import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.shop.ShopType;
-import fr.cocoraid.capitalismcraft.shop.shops.particle.SkinShop;
+import fr.cocoraid.capitalismcraft.shop.shops.skin.SkinShop;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
+import fr.cocoraid.capitalismcraft.skin.SkinRarity;
 import fr.cocoraid.capitalismcraft.utils.Heads;
 import fr.cocoraid.capitalismcraft.utils.Utils;
 import fr.minuskube.inv.ClickableItem;
@@ -15,9 +16,11 @@ import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +50,8 @@ public class SkinPurchaseInventory implements InventoryProvider {
         Gender gender =  cp.getPlayerdata().getGender();
 
         List<Skin> skins = Skin.getSkins().stream()
-                .filter(s -> s.getRank() == rank || (s.getRank() == Rank.HABITANT && rank == Rank.MINEUR) || (s.getRank() == Rank.HABITANT && rank == Rank.VILLAGEOIS))
+                .filter(s -> s.getRank() == rank)
+                .filter(s -> s.getRarity() != SkinRarity.DEFAULT)
                 .filter(s -> !cp.getPlayerdata().getSkinsPurchased().contains(s.getId()))
                 .filter(s -> s.getGender() == gender)
                 .collect(Collectors.toList());
@@ -55,14 +59,21 @@ public class SkinPurchaseInventory implements InventoryProvider {
         for (int i = 0; i < items.length; i++) {
             Skin skin = skins.get(i);
             ItemStack item = Utils.addLore(skin.getHeadDisplay().clone(),
-                    " ","§a§nClick gauche: ", "§f Prévisualiser le skin", " " , "§2§nClick droit: " , "§f Acheter le skin");
+                    " ","§a§nClick droit: ", "§f Prévisualiser le skin", " " , "§2§nClick gauche: " , "§f Acheter le skin");
 
             items[i] = ClickableItem.of(item, e -> {
                 if(e.getClick() == ClickType.LEFT) {
+                    cp.setPreviousInventory(getInventory(rank));
+                    cp.setLastPage(pagination.getPage());
                     PurchaseConfirmInventory.getInventory(skin.getId(), skin.getRarity().getPrice(), skin.getHeadDisplay()).open(player);
                 } else if(e.getClick() == ClickType.RIGHT) {
                     SkinShop shop = (SkinShop) CapitalismCraft.getInstance().getShopManager().getShop(ShopType.SKIN);
                     shop.initModel(player,skin);
+                    player.closeInventory();
+                    Vector dir = shop.getSHOWCASE().toVector().subtract(player.getLocation().toVector());
+                    Location l = player.getLocation();
+                    l.setDirection(dir);
+                    player.teleport(l);
                 }
                 //open confirm purchase
 
@@ -85,7 +96,7 @@ public class SkinPurchaseInventory implements InventoryProvider {
         } else {
             contents.set(4, 3, ClickableItem.of(Heads.ARROW_LEFT,
                     e -> {
-                        RankSkinInventory.INVENTORY.open(player);
+                        cp.getPreviousInventory().open(player,cp.getLastPage());
                     }));
         }
 

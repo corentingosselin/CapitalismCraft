@@ -1,4 +1,4 @@
-package fr.cocoraid.capitalismcraft.shop.shops.particle;
+package fr.cocoraid.capitalismcraft.shop.shops.skin;
 
 import fr.cocoraid.capitalismcraft.area.Area;
 import fr.cocoraid.capitalismcraft.area.event.AreaQuitEvent;
@@ -15,15 +15,15 @@ import org.bukkit.event.Listener;
 public class SkinShop extends Shop implements Listener {
 
 
-    private static final World WORLD = Bukkit.getWorld("world");
-    private static final Location SHOWCASE = new Location(WORLD,-415 + 0.5,6,-2408 + 0.5);
-    private static final Location ENTER = new Location(WORLD,-415 + 0.5,6,-2408 + 0.5);
+    private static final World WORLD = Bukkit.getWorld("build");
+    private static final Location SHOWCASE = new Location(WORLD,-44 + 0.5,55,-30 + 0.5);
+    private static final Location ENTER = new Location(WORLD,-35 + 0.5,54,-21 + 0.5,180,0);
 
 
     private Area area;
     public SkinShop() {
-        this.area = new Area(new Location(WORLD,-419,5,-2406)
-                , new Location(WORLD,-411,9,-2414));
+        this.area = new Area(new Location(WORLD,-24,53,-18)
+                , new Location(WORLD,-46,60,-41));
 
     }
 

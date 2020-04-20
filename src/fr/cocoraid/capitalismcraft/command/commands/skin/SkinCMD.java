@@ -1,14 +1,16 @@
 package fr.cocoraid.capitalismcraft.command.commands.skin;
 
 import fr.cocoraid.capitalismcraft.CapitalismCraft;
+import fr.cocoraid.capitalismcraft.listeners.JoinLeaveEvent;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.shop.ShopType;
-import fr.cocoraid.capitalismcraft.shop.shops.particle.SkinShop;
+import fr.cocoraid.capitalismcraft.shop.shops.skin.SkinShop;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.inventory.GenderInventory;
-import fr.cocoraid.capitalismcraft.skin.inventory.RankSkinInventory;
+import fr.cocoraid.capitalismcraft.skin.inventory.purchase.RankPuchaseSkinInventory;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -51,10 +53,19 @@ public class SkinCMD implements CommandExecutor {
                         GenderInventory.INVENTORY.open(cp.getPlayer());
                         return false;
                     }
-                    RankSkinInventory.INVENTORY.open(p);
+                    RankPuchaseSkinInventory.INVENTORY.open(p);
                 }     else if(args[0].equalsIgnoreCase("shop")) {
                     SkinShop shop = (SkinShop) instance.getShopManager().getShop(ShopType.SKIN);
                     p.teleport(shop.getENTER(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                }    else if(args[0].equalsIgnoreCase("applyall")) {
+                    if(p.hasPermission("cc.admin")) {
+                        Bukkit.getOnlinePlayers().forEach(cur -> {
+                            instance.getSkinManager().setSkin(JoinLeaveEvent.getDefaultSkin(),cur);
+                            instance.getSkinManager().updatePlayerSkin(cur);
+                            cur.sendMessage("§cUn nouveau skin vous a été attribué temporairement !");
+                            cur.sendMessage("§cUtiliser /skin pour en acheter un autre");
+                        });
+                    }
                 }
             } else if(args.length == 2) {
                  if(args[0].equalsIgnoreCase("apply") && StringUtils.isNumeric(args[1])) {

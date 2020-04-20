@@ -1,6 +1,6 @@
 package fr.cocoraid.capitalismcraft.shop;
 
-import fr.cocoraid.capitalismcraft.shop.shops.particle.SkinShop;
+import fr.cocoraid.capitalismcraft.shop.shops.skin.SkinShop;
 
 import java.util.HashMap;
 import java.util.Map;

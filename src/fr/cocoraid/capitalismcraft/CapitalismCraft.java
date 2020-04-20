@@ -5,27 +5,21 @@ import fr.cocoraid.capitalismcraft.area.AreaManager;
 import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
 import fr.cocoraid.capitalismcraft.bridges.WorldGuardBridge;
 import fr.cocoraid.capitalismcraft.command.CommandManager;
+import fr.cocoraid.capitalismcraft.listeners.ChatEvent;
 import fr.cocoraid.capitalismcraft.listeners.JoinLeaveEvent;
 import fr.cocoraid.capitalismcraft.listeners.NaturalSpawnEvent;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.player.PlayerDatabase;
 import fr.cocoraid.capitalismcraft.ranks.RankRegisterer;
 import fr.cocoraid.capitalismcraft.shop.ShopManager;
-import fr.cocoraid.capitalismcraft.skin.inventory.YourSkinsInventory;
 import fr.cocoraid.capitalismcraft.skin.loader.SkinManager;
 import fr.cocoraid.capitalismcraft.task.SceneEffectTask;
 import fr.cocoraid.capitalismcraft.timeismoney.TimeIsMoney;
-import fr.cocoraid.capitalismcraft.utils.Cuboid;
-import fr.cocoraid.capitalismcraft.warzone.Safezone;
-import fr.cocoraid.capitalismcraft.warzone.TagDetectEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class CapitalismCraft extends JavaPlugin {
 
@@ -64,18 +58,15 @@ public class CapitalismCraft extends JavaPlugin {
         areaManager.runTaskTimer(this,0,0);
         this.shopManager = new ShopManager();
 
-        if(TEST_MODE)
-            Safezone.setCuboid(new Cuboid(new Location(Bukkit.getWorld("world"),25,10,40,0,0),
-                    new Location(Bukkit.getWorld("world"),12,4,27,0,0) ));
-        else
-            new SceneEffectTask().runTaskTimerAsynchronously(instance,0,0);
+        new SceneEffectTask().runTaskTimerAsynchronously(instance,0,0);
 
-        Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
+        //Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
         new TimeIsMoney(this);
         new RankRegisterer(this);
 
         new CommandManager(this);
 
+        Bukkit.getPluginManager().registerEvents(new ChatEvent(),this);
         Bukkit.getPluginManager().registerEvents(new JoinLeaveEvent(this),this);
         Bukkit.getPluginManager().registerEvents(new NaturalSpawnEvent(),this);
 
@@ -108,34 +99,6 @@ public class CapitalismCraft extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             Player p = (Player) sender;
-
-            CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(p);
-            if(cp.getPlayerdata().getGender() == Gender.UNDETERMINED) {
-                cp.getPlayer().closeInventory();
-                GenderInventory.INVENTORY.open(cp.getPlayer());
-                return false;
-            }
-            RankSkinInventory.INVENTORY.open(p);
-
-
-            if(args.length == 1) {
-                if(args[0].equalsIgnoreCase("aggro")) {
-                    if(p.hasPermission("cc.empereur")) {
-                        if(cp.isEmperorCanBeTargetedByMonsters()) {
-                            cp.setEmperorTargetedByMonsters(false);
-                            p.sendMessage("§cLes monstres ne vous attaquerons plus !");
-                        } else {
-                            cp.setEmperorTargetedByMonsters(true);
-                            p.sendMessage("§cLes monstres viennent désormais vous attaquer !");
-                        }
-                    }
-                } else if(args[0].equalsIgnoreCase("build")) {
-                    if(p.hasPermission("cc.builder") || p.getName().equalsIgnoreCase("Pierrot529")) {
-                        p.teleport(new Location(Bukkit.getWorld("build"), 0, 60 , 0));
-                    }
-                }
-            }
-
         }
         return true;
     }

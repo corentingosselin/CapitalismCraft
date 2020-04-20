@@ -1,4 +1,4 @@
-package fr.cocoraid.capitalismcraft.shop.shops.particle;
+package fr.cocoraid.capitalismcraft.shop.shops.skin;
 
 import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;

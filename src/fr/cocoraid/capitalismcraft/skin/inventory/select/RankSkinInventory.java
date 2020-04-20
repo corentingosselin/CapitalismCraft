@@ -1,8 +1,10 @@
-package fr.cocoraid.capitalismcraft.skin.inventory;
+package fr.cocoraid.capitalismcraft.skin.inventory.select;
 
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Skin;
+import fr.cocoraid.capitalismcraft.skin.SkinRarity;
+import fr.cocoraid.capitalismcraft.skin.inventory.purchase.SkinPurchaseInventory;
 import fr.cocoraid.capitalismcraft.utils.Heads;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
@@ -11,23 +13,23 @@ import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class RankSkinInventory implements InventoryProvider {
 
     public static final SmartInventory INVENTORY = SmartInventory.builder()
-            .id("rankskinInv")
             .provider(new RankSkinInventory())
             .size(4, 9)
-            .title(ChatColor.GRAY + "Achat de skins")
+            .title(ChatColor.GRAY + "Selection des skins")
             .build();
-
-
 
 
 
@@ -36,42 +38,40 @@ public class RankSkinInventory implements InventoryProvider {
         CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(player);
         Pagination pagination = contents.pagination();
 
-        int ranksAmount = 0;
-        for (Rank rank : Rank.values()) {
-            if(player.hasPermission("cc." + rank.name().toLowerCase()))
-                ranksAmount++;
-        }
 
-        ClickableItem[] items = new ClickableItem[ranksAmount];
+
+
+
+        ClickableItem[] items = new ClickableItem[Rank.values().length];
         for(int i = 0; i < items.length; i++) {
-            //get random skin rank
-            final int index = i;
             Rank r = Rank.values()[i];
-            Skin skin;
-            if(r == Rank.MINEUR)
-                skin = Skin.getSkins().stream()
-                        .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
-                        .filter(s -> s.getRank() == Rank.HABITANT).collect(Collectors.toList()).get(1);
-            else if(r == Rank.VILLAGEOIS)
-                skin = Skin.getSkins().stream()
-                        .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
-                        .filter(s -> s.getRank() == Rank.HABITANT).collect(Collectors.toList()).get(2);
-            else
-                skin = Skin.getSkins().stream()
-                        .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
-                        .filter(s -> s.getRank() == r ).findFirst().orElse(null);
+            Skin skin = Skin.getSkins().stream()
+                    .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
+                    .filter(s -> s.getRank() == r).findFirst().orElse(null);
             if(skin != null) {
-                ItemStack item = skin.getHeadDisplay().clone();
+                ItemStack item = null;
                 ItemMeta meta = item.getItemMeta();
-                if(r == Rank.VILLAGEOIS)
-                    meta.setDisplayName("§6Villageois");
+                if(player.hasPermission(r.getPermission())
+                        && Skin.getSkins().stream().filter(s ->
+                                s.getRarity() == SkinRarity.DEFAULT ||
+                        cp.getPlayerdata().getSkinsPurchased().contains(s.getId())).findAny().isPresent())
+                item = skin.getHeadDisplay().clone();
+                else {
+                    item = new ItemStack(Material.GRAY_DYE);
+                    meta.setDisplayName(skin.getHeadDisplay().getItemMeta().getDisplayName());
+                    meta.setLore(Arrays.asList("§cVous n'avez pas accès aux skins de ce grade",
+                            "§cOu vous n'avez pas de skins pour ce grade"));
+                }
                 int skinAmount = Skin.getSkins().stream()
+                        .filter(s -> s.getRarity() == SkinRarity.DEFAULT || cp.getPlayerdata().getSkinsPurchased().contains(s.getId()))
                         .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
-                        .filter(s -> s.getRank() == r || (s.getRank() == Rank.HABITANT && r == Rank.MINEUR) || (s.getRank() == Rank.HABITANT && r == Rank.VILLAGEOIS) ).collect(Collectors.toList()).size();
+                        .filter(s -> s.getRank() == r).collect(Collectors.toList()).size();
                 meta.setLore(Arrays.asList("§3Nombre de skin: §b" + skinAmount));
                 item.setItemMeta(meta);
                 items[i] = ClickableItem.of(item,  e -> {
-                    SkinPurchaseInventory.getInventory(r).open(player);
+                    cp.setPreviousInventory(INVENTORY);
+                    cp.setLastPage(pagination.getPage());
+                    SkinsInventory.getInventory(r).open(player);
                 });
             }
         }

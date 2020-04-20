@@ -1,27 +1,19 @@
-package fr.cocoraid.capitalismcraft.skin.inventory;
+package fr.cocoraid.capitalismcraft.skin.inventory.purchase;
 
 import fr.cocoraid.capitalismcraft.bridges.EconomyBridge;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
-import fr.cocoraid.capitalismcraft.ranks.Rank;
-import fr.cocoraid.capitalismcraft.skin.Gender;
-import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.utils.Utils;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class PurchaseConfirmInventory  implements InventoryProvider {
 
@@ -83,6 +75,7 @@ public class PurchaseConfirmInventory  implements InventoryProvider {
                     EconomyBridge.takeMoneySilent(player,price);
                     player.closeInventory();
                     player.sendMessage("§bMerci pour votre achat ! §2Solde restant: " + EconomyBridge.getMoney(player));
+                    cp.getPlayerdata().addPurchasedSkin(skinID);
                     Utils.sendMessageCommand(player,"§3Cliquez §nICI pour mettre votre nouveau skin","skin apply " + skinID);
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                 } else {
@@ -98,10 +91,7 @@ public class PurchaseConfirmInventory  implements InventoryProvider {
 
         contents.set(3, 6, ClickableItem.of(cancel,
                 e -> {
-                    cp.getPlayerdata().setGender(Gender.FEMALE);
-                    player.closeInventory();
-                    player.sendMessage("§bMerci Madame ! Vous pouvez désormais choisir votre skin");
-                    player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1,1);
+                    cp.getPreviousInventory().open(player,cp.getLastPage());
                 }));
 
         contents.set(1,4, ClickableItem.empty(head));

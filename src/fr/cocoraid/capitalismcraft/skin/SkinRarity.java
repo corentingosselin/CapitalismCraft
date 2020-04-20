@@ -2,6 +2,7 @@ package fr.cocoraid.capitalismcraft.skin;
 
 public enum SkinRarity {
 
+    DEFAULT(-1, -1, "§8Par défaut"),
     BASIC(10000, 1, "§fBasique"),
     COMMON(30000, 2, "§8Banal"),
     MEDIUM(50000, 4, "§7Moyenne"),

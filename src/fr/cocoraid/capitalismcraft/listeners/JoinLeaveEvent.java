@@ -11,8 +11,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class JoinLeaveEvent implements Listener {
 
+
+    private static List<String> exemptedSkinPlayers = Arrays.asList("cocoraid","Xynoss_2000");
 
     private CapitalismCraft instance;
     public JoinLeaveEvent(CapitalismCraft instance) {
@@ -21,16 +28,40 @@ public class JoinLeaveEvent implements Listener {
 
     //https://mineskin.org/1195098344
     private static final Skin defaultSkin = new Skin("default", Gender.MALE, SkinRarity.BASIC,
-        "eyJ0aW1lc3RhbXAiOjE1ODcxNzI2NTc2NTcsInByb2ZpbGVJZCI6ImIwZDczMmZlMDBmNzQwN2U5ZTdmNzQ2MzAxY2Q5OGNhIiwicHJvZmlsZU5hbWUiOiJPUHBscyIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDU4NWRhNjA2Yzc5NTZmNmE4YjI0NzRjYTM5N2UwZTFlMTg1NTc0YjYyMmY5YTJlNzFlZjIzOWI4NDliNDVhYyIsIm1ldGFkYXRhIjp7Im1vZGVsIjoic2xpbSJ9fX19",
-"yTyaTlyHbZruHT0/06fCHEfwtf7QRmbQAOFeSmqQ5QFWKikrwTXEFq7+62pBM9aFmDzGVNIZ2b5wNd9ZVxKNhkfjKck9SHl3UiI5AvQNfbp6OXNNPeKArdLYvcgRzcddTbHe2yKVRpFVG4UUysCnl1oyk3frWAKTbUBaUwlWDg9HnAeXIVoaXqlNI6stdPwbrUczW/zh6Nb//+HHCEipbdGbU35EB0O3Vp6AlzeV3jn5wT/j8kItQU/m27TwtPA+6Urx8ypzNuTMmUipEMhfnRayqxgPEnssP82Nk02b7yno5vBtLjOU0O7JWLwwTkC2bE6OKXEu46Ul9Vuqwj0OrJDvC9LYn+t74spINNqV1pWCx5z7/LUO2NAyjyoxUjIbRO3NK/BnhtXAycOoKa0Rx6EThcgPeEGiLDaAOu5WNM/BMqYqmTqc9BNdZzzEwKv0Mbyth2XkRuw6sBdKijN+TnegQh1/PkD26+xEscvuC7dWKK0RLD1FxZKhI6j0dNhvq7aEKYuEV7nAvnZyOhrmPGJ4t3G6hJ8uTwxlRORatQUJ7CHlvw3U/Ee/JfdIBjxhDdEcqkoBEqPIP9Dr6ZNqu/06HRGgroDqES3kdTRQTkBWkrmgLShi23V/YE0HKZUdrKe9TfEFXFekSkmoSHlAjrP73b7Torjrk8kNVf1D++8=",
-        "cc.habitant");
+            "eyJ0aW1lc3RhbXAiOjE1ODcxNzI2NTc2NTcsInByb2ZpbGVJZCI6ImIwZDczMmZlMDBmNzQwN2U5ZTdmNzQ2MzAxY2Q5OGNhIiwicHJvZmlsZU5hbWUiOiJPUHBscyIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDU4NWRhNjA2Yzc5NTZmNmE4YjI0NzRjYTM5N2UwZTFlMTg1NTc0YjYyMmY5YTJlNzFlZjIzOWI4NDliNDVhYyIsIm1ldGFkYXRhIjp7Im1vZGVsIjoic2xpbSJ9fX19",
+            "yTyaTlyHbZruHT0/06fCHEfwtf7QRmbQAOFeSmqQ5QFWKikrwTXEFq7+62pBM9aFmDzGVNIZ2b5wNd9ZVxKNhkfjKck9SHl3UiI5AvQNfbp6OXNNPeKArdLYvcgRzcddTbHe2yKVRpFVG4UUysCnl1oyk3frWAKTbUBaUwlWDg9HnAeXIVoaXqlNI6stdPwbrUczW/zh6Nb//+HHCEipbdGbU35EB0O3Vp6AlzeV3jn5wT/j8kItQU/m27TwtPA+6Urx8ypzNuTMmUipEMhfnRayqxgPEnssP82Nk02b7yno5vBtLjOU0O7JWLwwTkC2bE6OKXEu46Ul9Vuqwj0OrJDvC9LYn+t74spINNqV1pWCx5z7/LUO2NAyjyoxUjIbRO3NK/BnhtXAycOoKa0Rx6EThcgPeEGiLDaAOu5WNM/BMqYqmTqc9BNdZzzEwKv0Mbyth2XkRuw6sBdKijN+TnegQh1/PkD26+xEscvuC7dWKK0RLD1FxZKhI6j0dNhvq7aEKYuEV7nAvnZyOhrmPGJ4t3G6hJ8uTwxlRORatQUJ7CHlvw3U/Ee/JfdIBjxhDdEcqkoBEqPIP9Dr6ZNqu/06HRGgroDqES3kdTRQTkBWkrmgLShi23V/YE0HKZUdrKe9TfEFXFekSkmoSHlAjrP73b7Torjrk8kNVf1D++8=",
+            "cc.habitant");
 
 
     @EventHandler
     public void join(PlayerJoinEvent e) {
         new CapitalistPlayer(e.getPlayer());
-        instance.getPlayerDatabase().registerPlayer(e.getPlayer());
         CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(e.getPlayer());
+        instance.getPlayerDatabase().registerPlayer(e.getPlayer());
+        if(cp.getPlayerdata().getLastKnownName() == null) {
+            cp.getPlayerdata().setLastKnownName(e.getPlayer().getDisplayName());
+        } else {
+            //player has changed name
+            if(!cp.getPlayerdata().getLastKnownName().equals(e.getPlayer().getName())) {
+                cp.getPlayerdata().addPreviousName(cp.getPlayerdata().getLastKnownName());
+                cp.getPlayerdata().setLastKnownName(e.getPlayer().getName());
+                //1 week
+                cp.getPlayerdata().setTimeLeftNotify(System.currentTimeMillis() + 168 * 3600 * 1000);
+                e.getPlayer().sendMessage("§c[§4NOUVEAU PSEUDO§c] Nous avons détecté que vous avez changé de pseudo minecraft");
+                e.getPlayer().sendMessage("§cPar conséquent, les joueurs en seront notifiés pendant 1 semaine, merci de votre compréhension !");
+            } else {
+                if(System.currentTimeMillis() > cp.getPlayerdata().getTimeLeftNotify()) {
+                    //no need to notify more than 1 week :)
+                    cp.getPlayerdata().setTimeLeftNotify(-1);
+                } else {
+                    e.setJoinMessage("§8(§7Anciennement " + cp.getPlayerdata().getNameHistory().getLast() + "§8) " + e.getJoinMessage());
+                }
+            }
+        }
+
+        if(exemptedSkinPlayers.contains(e.getPlayer().getName())) {
+            return;
+        }
         if(cp.getPlayerdata().getCurrentSkin() <= -1) {
             if(cp.getPlayerdata().getSkinsPurchased().isEmpty()) {
                 instance.getSkinManager().setSkin(defaultSkin,e.getPlayer());
@@ -47,4 +78,7 @@ public class JoinLeaveEvent implements Listener {
         CapitalistPlayer.getCapitalistPlayers().remove(e.getPlayer().getUniqueId());
     }
 
+    public static Skin getDefaultSkin() {
+        return defaultSkin;
+    }
 }

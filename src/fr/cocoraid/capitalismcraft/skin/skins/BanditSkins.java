@@ -57,6 +57,12 @@ public class BanditSkins implements SkinLoader {
                 "Ft1LUbRl0Xc1sMlrurs4A80Gp1u4aOwW6V8PkvB5TvZsZIvzs8OFPnu6MjdFm9ssCkWW6Pdpyd0D6t/eUbd8VXhEnKn9IYNezbUU6XtdA4phS6dCMC748SGFlwmn2TQYujiTtwYutknjBSpBSRJpRZ2I/BgZIbEkTiC++/3MgKrFO+z66i47b1+LBJdvyLZrBgpdHME5NoQuqUnmjYSYtv8FjqasvLvX6vtAmolxS/tlUW9EbtTL/W8nyP6lM/L+0c0pPO72Xb3t/so/g5a3E6KDMAPLFJdKIaY2femyC9eoycQTpVGFs2AC8shX089qKZWXMgiCFoJiNrd7ikJT4Me6aiHpX78T/DDm/2GFdmGR28wP+rcmxJ5U/hJUz9LADnZ4elUVu63y2oj+xSqxFKo8XUyO7zLXeEZETN8RydBc3mhw9/NOkuonZwkVA9HSstrmx6B+6MaGCrV3Q9/HWxvLWnFyRv11z1DXjxeR5NBpruYJAu8TfUUiQIyTeb8aptYTmm8n6sK0SBuZnDPgG1eXVs4GXlnmX0doaxTgpewhdcRdKmP9Nf1Gpvb1BDt2EpZlSPLMyxCGp4q+rcVZ9RLORQXhiUnCTG4ipulDUNbK8GzBcza9x9LOAgmkH7Tjp4qJbQqXOCfgSGI8A3pJf1N1MiRtYIBKcWEz/NEI4mA=",
                 perm));
 
+        //https://mineskin.org/1502779729
+        list.add(new Skin(bandit, Gender.MALE,SkinRarity.TREASURE,
+                "eyJ0aW1lc3RhbXAiOjE1NzAyODM1MjcxODAsInByb2ZpbGVJZCI6IjkxOGEwMjk1NTlkZDRjZTZiMTZmN2E1ZDUzZWZiNDEyIiwicHJvZmlsZU5hbWUiOiJCZWV2ZWxvcGVyIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS84NzU3YWZhODU2ZGI3YTAxYTE5NjdjYzk0NDIzNzhiNGY0MmZjMjRhYzgzMWE1YmY1MTc1M2U0NGI3OWZmNDczIn19fQ==",
+                "O/cI5QC//8tRYD+cW+QUnUhkQEzmoPiM9wpfxNcTJvYZVL9Z65jaydxOvIrWsZU3jisY1uyy58IVLYL5N/8YGAs3gjU9G82lxFrCW0ByCcQlnCqoAZ3gKzHxE+IQ6tCgrjdIwd3Urj0ex/feR4Qc7pCDz2Vvsw2qZ3mPBTTO6i/eXTuUCDG49NJoFs2dRzxaVk7yZk6Wb6zOEFFtdsrT6xmWmD3wkyWzQ6V64+L9e9N+f8gmei8MQGM1HOrnpAQrFAb4t+t5RB9dwn9dNLDyCslJhSLPecWSBEMun3mpy+f8xZeLcTGOVIlIlmjjWaWeYBpPQS8Y5IwcBIUFRXjdtCnKQEf7kAcxJsAV5f6SfJ50wq0LfQVBZtLVajppptontZLk6XDW/yFULov1chOIz307ZxQIVo5rRn8ElGUUkr8eDF2LpBTo6Qh5d5rITywbVCB5b55iiu4ngcHmO0TUyS7EFzv7wK62GAs+VZbwzcIq54pw0uKe70Fiy5FiyezYQdnXSInAVwEkUHX44zxlryMdn+1BtZROHFRWbrsBCXAkJ/vkp7j8eF/+LUnlcw8chmfZnbLVeiu9zjwSO+9D4tSkVGIPnQOP7OWwDtSxCAcFziM7y4OFc7aO9EKMNiM5nFgVT8MiPDWYiE7mfq/S5Hzt5/8zap+8UFmwQbOyPlI=",
+                perm));
+
 
         //women
 

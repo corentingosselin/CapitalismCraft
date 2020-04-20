@@ -1,10 +1,9 @@
 package fr.cocoraid.capitalismcraft.player;
 
-import fr.cocoraid.capitalismcraft.database.LocalDatabase;
 import fr.cocoraid.capitalismcraft.player.datas.ImportantData;
 import fr.cocoraid.capitalismcraft.player.datas.NormalData;
-import fr.cocoraid.capitalismcraft.shop.shops.particle.SkinDemo;
-import fr.cocoraid.capitalismcraft.skin.Gender;
+import fr.cocoraid.capitalismcraft.shop.shops.skin.SkinDemo;
+import fr.minuskube.inv.SmartInventory;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -13,10 +12,14 @@ import java.util.*;
 public class CapitalistPlayer {
 
 
+    private SmartInventory previousInventory;
+    private int lastPage;
+
 
 
     private ImportantData playerdata;
     private NormalData normalData;
+
 
 
 
@@ -124,5 +127,22 @@ public class CapitalistPlayer {
 
     public ImportantData getPlayerdata() {
         return playerdata;
+    }
+
+
+    public void setPreviousInventory(SmartInventory previousInventory) {
+        this.previousInventory = previousInventory;
+    }
+
+    public SmartInventory getPreviousInventory() {
+        return previousInventory;
+    }
+
+    public void setLastPage(int lastPage) {
+        this.lastPage = lastPage;
+    }
+
+    public int getLastPage() {
+        return lastPage;
     }
 }

@@ -3,7 +3,7 @@ package fr.cocoraid.capitalismcraft.command.commands.wanted;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.inventory.GenderInventory;
-import fr.cocoraid.capitalismcraft.skin.inventory.YourSkinsInventory;
+import fr.cocoraid.capitalismcraft.skin.inventory.select.SkinsInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,7 +48,7 @@ public class WantedCMD implements CommandExecutor {
                 GenderInventory.INVENTORY.open(cp.getPlayer());
                 return false;
             }
-            YourSkinsInventory.INVENTORY.open(p);
+            SkinsInventory.INVENTORY.open(p);
 
         }
         return false;
