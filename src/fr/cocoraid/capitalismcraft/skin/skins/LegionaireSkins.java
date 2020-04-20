@@ -14,8 +14,8 @@ public class LegionaireSkins implements SkinLoader {
     @Override
     public List<Skin> loadSkins() {
         List<Skin> list = new ArrayList<>();
-        String perm = "cc.legionaire";
-        String name = "§eLegionaire";
+        String perm = "cc.legionnaire";
+        String name = "§eLegionnaire";
 
         //https://mineskin.org/543786214
         list.add(new Skin(name, Gender.MALE, SkinRarity.UNIQUE,

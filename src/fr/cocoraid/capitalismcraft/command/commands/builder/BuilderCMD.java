@@ -1,17 +1,21 @@
 package fr.cocoraid.capitalismcraft.command.commands.builder;
 
+import fr.cocoraid.capitalismcraft.CapitalismCraft;
+import fr.cocoraid.capitalismcraft.nms.CustomMinecartFurnace;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EvokerFangs;
 import org.bukkit.entity.Player;
 
 public class BuilderCMD implements CommandExecutor {
 
 
-    public BuilderCMD() {
-
+    private CapitalismCraft instance;
+    public BuilderCMD(CapitalismCraft instance) {
+        this.instance = instance;
     }
 
     @Override
@@ -28,7 +32,7 @@ public class BuilderCMD implements CommandExecutor {
             if(args[0].equalsIgnoreCase("go")) {
                 p.teleport(new Location(Bukkit.getWorld("build"), 0, 60 , 0));
             } else  if(args[0].equalsIgnoreCase("mf")) {
-
+                new CustomMinecartFurnace(p.getLocation()).spawn(p.getLocation());
             }
 
 

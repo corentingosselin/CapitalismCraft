@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CapitalismCraft extends JavaPlugin {
 
-    private final static boolean TEST_MODE = true;
+    private final static boolean TEST_MODE = false;
 
     private static CapitalismCraft instance;
     private WorldGuardBridge worldGuardBridge;
@@ -32,6 +32,8 @@ public class CapitalismCraft extends JavaPlugin {
     private SkinManager skinManager;
     private ShopManager shopManager;
     private AreaManager areaManager;
+
+    private SceneEffectTask sceneEffectTask;
 
     @Override
     public void onEnable() {
@@ -58,7 +60,10 @@ public class CapitalismCraft extends JavaPlugin {
         areaManager.runTaskTimer(this,0,0);
         this.shopManager = new ShopManager();
 
-        new SceneEffectTask().runTaskTimerAsynchronously(instance,0,0);
+        if(!TEST_MODE) {
+            this.sceneEffectTask = new SceneEffectTask();
+            sceneEffectTask.runTaskTimerAsynchronously(instance, 0, 0);
+        }
 
         //Bukkit.getPluginManager().registerEvents(new TagDetectEvent(this),this);
         new TimeIsMoney(this);
@@ -103,6 +108,10 @@ public class CapitalismCraft extends JavaPlugin {
         return true;
     }
 
+
+    public SceneEffectTask getSceneEffectTask() {
+        return sceneEffectTask;
+    }
 
     public ShopManager getShopManager() {
         return shopManager;

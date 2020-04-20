@@ -13,7 +13,7 @@ public enum Rank {
     LEGIONAIRE(8,"§eLegionnaire", "cc.legionnaire"),
     SEIGNEUR(9,"§5Seigneur", "cc.seigneur"),
     EMPEREUR(10,"§cEmpereur", "cc.empereur"),
-    MARSHAL(11, "§6&lMarshal", "cc.marshal");
+    MARSHAL(11, "§6§lMarshal", "cc.marshal");
 
 
 

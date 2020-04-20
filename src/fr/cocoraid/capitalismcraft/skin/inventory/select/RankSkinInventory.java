@@ -1,9 +1,15 @@
 package fr.cocoraid.capitalismcraft.skin.inventory.select;
 
+import fr.cocoraid.capitalismcraft.CapitalismCraft;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.ranks.Rank;
+import fr.cocoraid.capitalismcraft.shop.ShopType;
+import fr.cocoraid.capitalismcraft.shop.shops.skin.SkinShop;
+import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
+import fr.cocoraid.capitalismcraft.skin.inventory.GenderInventory;
+import fr.cocoraid.capitalismcraft.skin.inventory.purchase.RankPuchaseSkinInventory;
 import fr.cocoraid.capitalismcraft.skin.inventory.purchase.SkinPurchaseInventory;
 import fr.cocoraid.capitalismcraft.utils.Heads;
 import fr.minuskube.inv.ClickableItem;
@@ -39,9 +45,6 @@ public class RankSkinInventory implements InventoryProvider {
         Pagination pagination = contents.pagination();
 
 
-
-
-
         ClickableItem[] items = new ClickableItem[Rank.values().length];
         for(int i = 0; i < items.length; i++) {
             Rank r = Rank.values()[i];
@@ -50,29 +53,36 @@ public class RankSkinInventory implements InventoryProvider {
                     .filter(s -> s.getRank() == r).findFirst().orElse(null);
             if(skin != null) {
                 ItemStack item = null;
-                ItemMeta meta = item.getItemMeta();
-                if(player.hasPermission(r.getPermission())
+                if (player.hasPermission(r.getPermission())
                         && Skin.getSkins().stream().filter(s ->
-                                s.getRarity() == SkinRarity.DEFAULT ||
-                        cp.getPlayerdata().getSkinsPurchased().contains(s.getId())).findAny().isPresent())
-                item = skin.getHeadDisplay().clone();
-                else {
+                        s.getRarity() == SkinRarity.DEFAULT ||
+                                cp.getPlayerdata().getSkinsPurchased().contains(s.getId())).findAny().isPresent()) {
+                    item = skin.getHeadDisplay().clone();
+                    int skinAmount = Skin.getSkins().stream()
+                            .filter(s -> s.getRarity() == SkinRarity.DEFAULT || cp.getPlayerdata().getSkinsPurchased().contains(s.getId()))
+                            .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
+                            .filter(s -> s.getRank() == r).collect(Collectors.toList()).size();
+                    ItemMeta meta = item.getItemMeta();
+                    meta.setLore(Arrays.asList("§3Nombre de skin: §b" + skinAmount));
+                    item.setItemMeta(meta);
+
+                    items[i] = ClickableItem.of(item,  e -> {
+                        cp.setPreviousInventory(INVENTORY);
+                        cp.setLastPage(pagination.getPage());
+                        SkinsInventory.getInventory(r).open(player);
+                    });
+                } else {
                     item = new ItemStack(Material.GRAY_DYE);
+                    ItemMeta meta = item.getItemMeta();
                     meta.setDisplayName(skin.getHeadDisplay().getItemMeta().getDisplayName());
                     meta.setLore(Arrays.asList("§cVous n'avez pas accès aux skins de ce grade",
                             "§cOu vous n'avez pas de skins pour ce grade"));
+                    item.setItemMeta(meta);
+
+                    items[i] = ClickableItem.empty(item);
                 }
-                int skinAmount = Skin.getSkins().stream()
-                        .filter(s -> s.getRarity() == SkinRarity.DEFAULT || cp.getPlayerdata().getSkinsPurchased().contains(s.getId()))
-                        .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
-                        .filter(s -> s.getRank() == r).collect(Collectors.toList()).size();
-                meta.setLore(Arrays.asList("§3Nombre de skin: §b" + skinAmount));
-                item.setItemMeta(meta);
-                items[i] = ClickableItem.of(item,  e -> {
-                    cp.setPreviousInventory(INVENTORY);
-                    cp.setLastPage(pagination.getPage());
-                    SkinsInventory.getInventory(r).open(player);
-                });
+
+
             }
         }
 
@@ -85,6 +95,23 @@ public class RankSkinInventory implements InventoryProvider {
             contents.set(3, 3, ClickableItem.of(Heads.ARROW_LEFT,
                     e -> {
                         INVENTORY.open(player, pagination.previous().getPage());
+                    }));
+        } else {
+            ItemStack itemShop = new ItemStack(Material.CHEST);
+            ItemMeta meta = itemShop.getItemMeta();
+            meta.setDisplayName("§6Acheter un skin");
+            itemShop.setItemMeta(meta);
+
+            contents.set(3, 3, ClickableItem.of(itemShop,
+                    e -> {
+                        //open skin shop inventory
+                        if(cp.getPlayerdata().getGender() == Gender.UNDETERMINED) {
+                            cp.getPlayer().closeInventory();
+                            GenderInventory.INVENTORY.open(cp.getPlayer());
+                        } else {
+                            player.teleport(SkinShop.getENTER());
+                            RankPuchaseSkinInventory.INVENTORY.open(player);
+                        }
                     }));
         }
         if(!pagination.isLast()) {

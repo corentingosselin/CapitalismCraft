@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -13,7 +14,7 @@ public class VillageoisSkins implements SkinLoader {
 
     @Override
     public List<Skin> loadSkins() {
-        List list = new ArrayList();
+        List<Skin> list = new ArrayList();
 
 
         String maleName = "§6Villageois";
@@ -54,6 +55,8 @@ public class VillageoisSkins implements SkinLoader {
                 "eyJ0aW1lc3RhbXAiOjE1ODY4NjQ2OTgwODMsInByb2ZpbGVJZCI6IjJjMTA2NGZjZDkxNzQyODI4NGUzYmY3ZmFhN2UzZTFhIiwicHJvZmlsZU5hbWUiOiJOYWVtZSIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Q5ZTYwNzk0YTcyZTZkNDQxNzgwODc2YTJjODk5MTI1Y2E3YjA2NzA4NzJiMGFjNjczMjUxNTAxOWU0YWI4YSIsIm1ldGFkYXRhIjp7Im1vZGVsIjoic2xpbSJ9fX19",
                 "oc/ajqB/ONL4UdEKPQJkE99nBWOr5nMedGhur+6b8aPTqApARdNvr5TKgIfdm5c0tzxbbW0Kdr3Pf/d3skzsR28G0wIHXqrid/G6Q7OMFabszWMvVC8i2pDiriENMKbXzCiCGUrzhIAKxSLBwjoOVQQq/kOO1M7TTY7CcQPcyAeCyNyYZ+ZFDON11v6jntrm2YJaVfDbWRCqAh2sicHED2/Hg4RzFG9L6cPmTJpiarQmiWFixU7o8YxtMAnsaw+CrD7HW1S9buBZnc6jjwRzXnhS6ZFPRIhTkcnd12hW+1i2ffB/7aVJLnsjlj0QdCbJIVl618uvlu9vXaLiqBw5/nrQjb999KPAg8BO8MBiRl4Uzxfi2JmtMCi3YKoKRpECadrQN58MrCZ2mKRCmfkCAO26WWlYcUoiHbcxgw+5bxKsEQ87Dmaw4bN7OsrwUHof69xwgibIfqlol5F2Na7J7B4qjPazZMgCWN7yPZN2ZA6TIwbir2PihHTLBgZGarwWhnot5Nj/nMHP1/E9qJ5T5VcjU7RhIKuwa+lNY4p6UUmzaontwwtJG+heUGvqVuVE3NI+5roRUtjIW0dxYBa07U2yov6sZYLucasC15BtUZ7T5SBJMLbI5bXCKcxt6neIYkuJ26d0+15/YiUhr1RjlXlHgLxMKw4aEzi91nJQnBo=",
                 perm));
+
+        list.forEach(r -> r.setRank(Rank.VILLAGEOIS));
 
         return list;
     }

@@ -21,7 +21,9 @@ public class SkinManager {
 
 
     public SkinManager() {
-        new HabitantVillageoisMineurSkins().loadSkins();
+        new HabitantSkins().loadSkins();
+        new VillageoisSkins().loadSkins();
+        new MineurSkins().loadSkins();
         new BanditSkins().loadSkins();
         new MercenaireSkins().loadSkins();
         new BourgeoisSkins().loadSkins();

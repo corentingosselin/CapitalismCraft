@@ -39,31 +39,37 @@ public class RankPuchaseSkinInventory implements InventoryProvider {
 
         // -1 because of habitant default is not displayed
         ClickableItem[] items = new ClickableItem[(Rank.values().length - 1)];
-        for(int i = 1; i < items.length; i++) {
-            Rank r = Rank.values()[i];
+        for(int i = 0; i < items.length; i++) {
+            Rank r = Rank.values()[i + 1];
+
             Skin skin = Skin.getSkins().stream()
                     .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
                     .filter(s -> s.getRank() == r).findFirst().orElse(null);
             if(skin != null) {
+
                 ItemStack item = null;
-                ItemMeta meta = item.getItemMeta();
-                if(player.hasPermission(skin.getRequiredPermission()))
                 item = skin.getHeadDisplay().clone();
-                else {
+                if(!player.hasPermission(skin.getRequiredPermission())) {
                     item = new ItemStack(Material.GRAY_DYE);
+                    ItemMeta meta = item.getItemMeta();
                     meta.setDisplayName(skin.getHeadDisplay().getItemMeta().getDisplayName());
                     meta.setLore(Arrays.asList("§cVous n'avez pas accès aux skins de ce grade", "§cVous devez obtenir le grade suivant pour les débloquer"));
+                    item.setItemMeta(meta);
+                    items[i] = ClickableItem.empty(item);
+                } else {
+                    int skinAmount = Skin.getSkins().stream()
+                            .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
+                            .filter(s -> s.getRank() == r).collect(Collectors.toList()).size();
+                    ItemMeta meta = item.getItemMeta();
+                    meta.setLore(Arrays.asList("§3Nombre de skin: §b" + skinAmount));
+                    item.setItemMeta(meta);
+                    items[i] = ClickableItem.of(item,  e -> {
+                        cp.setPreviousInventory(INVENTORY);
+                        cp.setLastPage(pagination.getPage());
+                        SkinPurchaseInventory.getInventory(r).open(player);
+                    });
                 }
-                int skinAmount = Skin.getSkins().stream()
-                        .filter(s -> s.getGender() == cp.getPlayerdata().getGender())
-                        .filter(s -> s.getRank() == r).collect(Collectors.toList()).size();
-                meta.setLore(Arrays.asList("§3Nombre de skin: §b" + skinAmount));
-                item.setItemMeta(meta);
-                items[i] = ClickableItem.of(item,  e -> {
-                    cp.setPreviousInventory(INVENTORY);
-                    cp.setLastPage(pagination.getPage());
-                    SkinPurchaseInventory.getInventory(r).open(player);
-                });
+
             }
         }
 

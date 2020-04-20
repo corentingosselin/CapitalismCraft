@@ -57,15 +57,6 @@ public class SkinCMD implements CommandExecutor {
                 }     else if(args[0].equalsIgnoreCase("shop")) {
                     SkinShop shop = (SkinShop) instance.getShopManager().getShop(ShopType.SKIN);
                     p.teleport(shop.getENTER(), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                }    else if(args[0].equalsIgnoreCase("applyall")) {
-                    if(p.hasPermission("cc.admin")) {
-                        Bukkit.getOnlinePlayers().forEach(cur -> {
-                            instance.getSkinManager().setSkin(JoinLeaveEvent.getDefaultSkin(),cur);
-                            instance.getSkinManager().updatePlayerSkin(cur);
-                            cur.sendMessage("§cUn nouveau skin vous a été attribué temporairement !");
-                            cur.sendMessage("§cUtiliser /skin pour en acheter un autre");
-                        });
-                    }
                 }
             } else if(args.length == 2) {
                  if(args[0].equalsIgnoreCase("apply") && StringUtils.isNumeric(args[1])) {

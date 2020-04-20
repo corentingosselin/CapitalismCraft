@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class SkinsInventory implements InventoryProvider {
         return SmartInventory.builder()
                 .provider(new SkinsInventory(rank))
                 .size(6, 9)
-                .title("§7Collection de skin" + rank.getName())
+                .title("§7Collection de skin " + rank.getName())
                 .build();
     }
 
@@ -56,13 +57,20 @@ public class SkinsInventory implements InventoryProvider {
         ClickableItem[] items = new ClickableItem[skins.size()];
         for (int i = 0; i < items.length; i++) {
             Skin skin = skins.get(i);
-            items[i] = ClickableItem.of(skin.getHeadDisplay(), e -> {
+            ItemStack item = skin.getHeadDisplay().clone();
+            ItemMeta meta = item.getItemMeta();
+            meta.setLore(Arrays.asList("§3Vous possédez ce skin"));
+            item.setItemMeta(meta);
+
+            items[i] = ClickableItem.of(item, e -> {
                 player.closeInventory();
                 if(System.currentTimeMillis() < (cp.getLastTimeSkinChanged() + (1000 * 60 * 30)) && cp.getLastTimeSkinChanged() != 0) {
                     player.sendMessage("§4Erreur: §cNous somme navré, le changement de skin n'est autorisé que toutes les 30 minutes...");
                     return;
                 }
-                cp.setLastTimeSkinChanged(System.currentTimeMillis());
+                if(!player.hasPermission("cc.admin"))
+                    cp.setLastTimeSkinChanged(System.currentTimeMillis());
+
                 cp.getPlayerdata().setCurrentSkin(skin.getId());
                 skinManager.setSkin(skin,player);
                 skinManager.updatePlayerSkin(player);
@@ -87,6 +95,9 @@ public class SkinsInventory implements InventoryProvider {
         if(!pagination.isFirst()) {
             contents.set(4, 2, ClickableItem.of(Heads.ARROW_LEFT,
                     e -> getInventory(rank).open(player, pagination.previous().getPage())));
+        } else {
+            contents.set(4, 2, ClickableItem.of(Heads.ARROW_LEFT,
+                    e -> cp.getPreviousInventory().open(player,cp.getLastPage())));
         }
 
         if(cp.getPlayerdata().getCurrentSkin() != -1) {
@@ -97,6 +108,7 @@ public class SkinsInventory implements InventoryProvider {
             item.setItemMeta(meta);
             contents.set(4,4, ClickableItem.empty(item));
         }
+
 
 
         if(!pagination.isLast()) {

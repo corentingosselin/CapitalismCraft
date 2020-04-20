@@ -25,15 +25,9 @@ public class SkinDemo {
         this.player = player;
         this.skin = skin;
         this.shop = shop;
-
-
     }
 
-
-
-
     private BukkitTask task;
-
     public void init() {
         CapitalistPlayer cp = CapitalistPlayer.getCapitalistPlayer(player);
         spawnText();

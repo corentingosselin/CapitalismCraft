@@ -1,5 +1,6 @@
 package fr.cocoraid.capitalismcraft.skin.skins;
 
+import fr.cocoraid.capitalismcraft.ranks.Rank;
 import fr.cocoraid.capitalismcraft.skin.Gender;
 import fr.cocoraid.capitalismcraft.skin.Skin;
 import fr.cocoraid.capitalismcraft.skin.SkinRarity;
@@ -36,6 +37,8 @@ public class MineurSkins implements SkinLoader {
                 "AoVsSnY6W2MWdQpRW1d971uY2v26JkziilWhlorFSjkc+EaAFcYNO+9UZysdDKV0Cg23eARVZSrGxSvMMPHMHShIq6+pgBlSHPFFOmONmEilYGu6jAvGHvY4SWYgqJe917fGxy13S5FB2VdabE/L3K/W0DdxFR5qRNzRzJZO05enbxuZTUyEcz/zv92FP14QkzcQwtElpCjR36q6Vgp+jxxHIOpOh+Vm5qtef097/pN1T/IPS1NJCvl+k3/IFvDUuLX9Iag+O8OuaJr9b5TFB8nfbi7TCMf6lgg4aDnvsGEnlmDiihcDhIjw+Ea0aPFvRKMRxG/WdCsL+tj0HFZNnx0z04ayleqrs3mNyTR4puy5g+125BR1PPgVjKD3EdtGXKHiPikywQ5XVMIgAjGeBL3XA7DDDADhoO1CenLoaXAO6r2xzYkkbYGBAXWZF7inLt7i4p78IgkHf2Ow48QZZMOGDtNapoFOA0QxLYlRuKDweoC9+4Oj8lO5uom7qeZONdGLLAx3n9Nay8zXrD/L1TCQveZ7V0szje6rjQEL4l8LH0uc+0EwYtuExWp88OnxDJVJ3XRMqv7pcvsEeCH7ixkeRWjl1HLz5quRs0waXZsvbuc9dYK3p3HCbA/BuYEJLuVgdbnnevwU6MbKwffFj1nfY2CAhXp5x9+Seh+UG5g=",
                 perm
         ));
+
+        list.forEach(r -> r.setRank(Rank.MINEUR));
 
         return list;
     }
