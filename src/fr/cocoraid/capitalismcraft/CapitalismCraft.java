@@ -8,6 +8,7 @@ import fr.cocoraid.capitalismcraft.command.CommandManager;
 import fr.cocoraid.capitalismcraft.listeners.ChatEvent;
 import fr.cocoraid.capitalismcraft.listeners.JoinLeaveEvent;
 import fr.cocoraid.capitalismcraft.listeners.NaturalSpawnEvent;
+import fr.cocoraid.capitalismcraft.mention.MentionManager;
 import fr.cocoraid.capitalismcraft.player.CapitalistPlayer;
 import fr.cocoraid.capitalismcraft.player.PlayerDatabase;
 import fr.cocoraid.capitalismcraft.ranks.RankRegisterer;
@@ -32,6 +33,7 @@ public class CapitalismCraft extends JavaPlugin {
     private SkinManager skinManager;
     private ShopManager shopManager;
     private AreaManager areaManager;
+    private MentionManager mentionManager;
 
     private SceneEffectTask sceneEffectTask;
 
@@ -54,7 +56,8 @@ public class CapitalismCraft extends JavaPlugin {
             this.worldGuardBridge = new WorldGuardBridge(this, (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard"));
         }
 
-        //set pvp area cuboid
+
+        this.mentionManager = new MentionManager(this);
 
         this.areaManager = new AreaManager();
         areaManager.runTaskTimer(this,0,0);

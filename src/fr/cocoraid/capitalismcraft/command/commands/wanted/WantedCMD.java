@@ -38,7 +38,7 @@ public class WantedCMD implements CommandExecutor {
                 if(args[0].equalsIgnoreCase("add")) {
 
 
-                    
+
                     if(Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
 
                     }
