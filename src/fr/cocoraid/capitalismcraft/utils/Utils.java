@@ -221,4 +221,22 @@ public class Utils {
     }
 
 
+
+    /**
+     *
+     * @param location
+     * @param distance
+     * @return
+     */
+    public static List<Player> getClosestPlayersFromLocation(Location location, double distance) {
+        List<Player> result = new ArrayList<>();
+        double d2 = distance * distance;
+        for (Player player : location.getWorld().getPlayers()) {
+            if (player.getLocation().add(0, 0.85D, 0).distanceSquared(location) <= d2) {
+                result.add(player);
+            }
+        }
+        return result;
+    }
+
 }
