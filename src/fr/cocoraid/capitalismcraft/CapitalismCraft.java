@@ -17,6 +17,7 @@ import fr.cocoraid.capitalismcraft.shop.ShopManager;
 import fr.cocoraid.capitalismcraft.skin.loader.SkinManager;
 import fr.cocoraid.capitalismcraft.task.SceneEffectTask;
 import fr.cocoraid.capitalismcraft.timeismoney.TimeIsMoney;
+import fr.cocoraid.capitalismcraft.wanted.WantedManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,6 +36,7 @@ public class CapitalismCraft extends JavaPlugin {
     private ShopManager shopManager;
     private AreaManager areaManager;
     private MentionManager mentionManager;
+    private WantedManager wantedManager;
 
     private SceneEffectTask sceneEffectTask;
 
@@ -65,7 +67,7 @@ public class CapitalismCraft extends JavaPlugin {
 
 
         this.mentionManager = new MentionManager(this);
-
+        this.wantedManager = new WantedManager(this);
         this.areaManager = new AreaManager();
         areaManager.runTaskTimer(this,0,0);
         this.shopManager = new ShopManager();
@@ -97,6 +99,8 @@ public class CapitalismCraft extends JavaPlugin {
     public void onDisable() {
         super.onDisable();
 
+        wantedManager.saveDatabase();
+
         Bukkit.getOnlinePlayers().forEach(cur -> {
             CapitalistPlayer.getCapitalistPlayers().remove(cur.getUniqueId());
         });
@@ -118,6 +122,13 @@ public class CapitalismCraft extends JavaPlugin {
         return true;
     }
 
+    public WantedManager getWantedManager() {
+        return wantedManager;
+    }
+
+    public MentionManager getMentionManager() {
+        return mentionManager;
+    }
 
     public SceneEffectTask getSceneEffectTask() {
         return sceneEffectTask;
@@ -138,4 +149,7 @@ public class CapitalismCraft extends JavaPlugin {
     public PlayerDatabase getPlayerDatabase() {
         return database;
     }
+
+
+
 }

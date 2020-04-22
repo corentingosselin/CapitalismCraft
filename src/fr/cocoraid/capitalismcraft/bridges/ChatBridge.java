@@ -15,8 +15,6 @@
 package fr.cocoraid.capitalismcraft.bridges;
 
 import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;

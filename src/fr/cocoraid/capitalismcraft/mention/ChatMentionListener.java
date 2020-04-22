@@ -15,7 +15,7 @@ public class ChatMentionListener implements Listener {
 
     @EventHandler
     public void chat(AsyncPlayerChatEvent e) {
-        manager.mention(e.getPlayer(),e.getMessage(),e.isCancelled());
+       e.setMessage(manager.mention(e.getPlayer(),e.getMessage(),e.isCancelled()));
 
     }
 

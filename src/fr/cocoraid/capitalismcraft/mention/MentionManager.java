@@ -41,37 +41,29 @@ public class MentionManager {
 
         if(message.startsWith("/"))  return message;
 
+
         //everything concerning the sender....
         if(isCancelled && !mentioner.hasPermission("prodigymention.chatmuted.bypass"))  return message;
-        if(!mentioner.hasPermission("prodigymention.use")) return message;
 
+        boolean everyone = false;
+        List<Player> targets;
+        if(StringUtils.containsIgnoreCase(message.toLowerCase(),"@everyone") && mentioner.hasPermission("prodigymention.everyone")) {
+            targets = Bukkit.getOnlinePlayers().stream()
+                    .filter(cur -> !cur.equals(mentioner))
+                    .collect(Collectors.toList());
+            everyone = true;
+        } else
+            targets = Bukkit.getOnlinePlayers().stream()
+                    .filter(cur -> !cur.equals(mentioner))
+                    .filter(cur ->  StringUtils.containsIgnoreCase(message.toLowerCase(), cur.getName().toLowerCase())) //check name
+                    .collect(Collectors.toList());
 
-        List<Player> targets = Bukkit.getOnlinePlayers().stream()
-                .filter(cur -> !cur.equals(mentioner))
-                .filter(cur ->  StringUtils.containsIgnoreCase(message.toLowerCase(), cur.getName().toLowerCase())) //check name
-                .filter(cur -> cur.hasPermission("prodigymention.bypass")) //check if receiver can bypass
-                .collect(Collectors.toList());
-
-
-
+        if(targets.isEmpty()) return message;
 
         //just send message if the player has spammed
         if(!mentioner.hasPermission("prodigymention.antispam.bypass") && antiSpam.contains(mentioner.getUniqueId())) {
             return message;
         }
-
-
-        String finalMessage = message;
-        //transform message into colored message
-
-        //String[] words = finalMessage.split("\\W+");
-        String[] normal =  Arrays.stream(Lists.transform(targets, HumanEntity::getName).toArray()).toArray(String[]::new);
-        String[] colored = Arrays.stream(normal).toArray(String[]::new);
-        for (int index =0; index < colored.length; index++){
-            colored[index] = colored[index].replace(colored[index], ChatColor.GOLD + colored[index] + ChatColor.RESET);
-        }
-        StringUtils.replaceEach(finalMessage, normal, colored);
-
 
 
         if(!antiSpam.contains(mentioner.getUniqueId()))
@@ -83,24 +75,46 @@ public class MentionManager {
         }.runTaskLaterAsynchronously(instance, 20L * 5);
 
 
+        String finalMessage = message;
+        //transform message into colored message
+
+
+        if(everyone) {
+            finalMessage = "§c" + finalMessage;
+        } else {
+            for (Player t : targets) {
+                finalMessage = finalMessage.replace(t.getName(), ChatColor.GOLD + t.getName() + ChatColor.RESET);
+            }
+        }
+
+        if(targets.size() > 1) {
+            Utils.sendActionBar(mentioner,"§6Vous avez mentionné §2plusieurs joueurs");
+        } else
+            Utils.sendActionBar(mentioner,"§6Vous avez mentionné §2" + targets.get(0).getName());
 
         //let's notify targets
         targets.forEach(t -> {
 
             t.getWorld().spawnParticle(Particle.NOTE,t.getLocation().add(0,1,0),10, 0.5,0.5,0.5,0.1F);
-
-            Utils.sendActionBar(t,"§2 " + mentioner.getName() + " §6vous a mentionné !");
-
             Sound sound = Sound.BLOCK_NOTE_BLOCK_PLING;
-                t.playSound(t.getLocation(), sound, 2, 1);
-                mentioner.playSound(mentioner.getLocation(), sound, 2, 2);
-                new BukkitRunnable() {
-                    public void run() {
+            if(mentioner.hasPermission("cc.marshal")) {
+                t.playSound(mentioner.getLocation(), Sound.ENTITY_EVOKER_CAST_SPELL, 2, 1);
+                t.sendTitle("","§2 " + mentioner.getDisplayName() + " §6vous a mentionné !");
+            } else {
+                t.sendTitle("", "§2 " + mentioner.getName() + " §6vous a mentionné !");
+
+            }
+            t.playSound(t.getLocation(), sound, 2, 1);
+            mentioner.playSound(mentioner.getLocation(), sound, 2, 2);
+            new BukkitRunnable() {
+                public void run() {
+                    if(t.isOnline())
                         t.playSound(t.getLocation(), sound, 2, 0);
+                    if(mentioner.isOnline())
                         mentioner.playSound(mentioner.getLocation(), sound, 2, 0);
 
-                    }
-                }.runTaskLater(instance, 4L);
+                }
+            }.runTaskLater(instance, 4L);
 
 
         });

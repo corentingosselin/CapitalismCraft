@@ -37,7 +37,8 @@ public class Skin {
         String decoded = new String(Base64.getDecoder().decode(textureValue));
         decoded = "{" + decoded.replaceFirst(".*(?=\"textures\")", "");
         String headTexture = new String(Base64.getEncoder().encode(decoded.getBytes()));
-        this.headDisplay = Utils.createSkull(displayName, Arrays.asList("§fPrix: §2" + rarity.getPrice() + " $", "§fPrix IRL: §6" + rarity.getRealPrice() + " €"), headTexture);
+        String price = Utils.formatValue(rarity.getPrice());
+        this.headDisplay = Utils.createSkull(displayName, Arrays.asList("§fPrix: §2" + price + " $", "§fPrix IRL: §6" + rarity.getRealPrice() + " €"), headTexture);
         skins.add(this);
     }
 

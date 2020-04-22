@@ -14,15 +14,17 @@ public class WantedPlayer {
     private UUID wantedUUID;
     private UUID wanterUUID;
     private int id;
+    private int day;
 
 
-    public WantedPlayer(int id,UUID wanterUUID,UUID wantedUUID, long start, long end, int price) {
+    public WantedPlayer(int id,UUID wanterUUID, UUID wantedUUID, long start, int day, int price) {
         this.price = price;
         this.start = start;
-        this.end = end;
+        this.end =  start + (day * 1000 * 60 * 60 * 24);;
         this.wantedUUID = wantedUUID;
         this.wanterUUID = wanterUUID;
         this.id = id;
+        this.day = day;
     }
 
     public int getId() {
@@ -39,6 +41,14 @@ public class WantedPlayer {
 
     public List<UUID> getBanned() {
         return banned;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getDayLeft() {
+        return day;
     }
 
     public UUID getWantedUUID() {

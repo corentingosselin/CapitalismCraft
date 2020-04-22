@@ -36,30 +36,12 @@ public class WoodShop extends Shop implements Listener {
 
     }
 
-    private BukkitTask task;
-    private void init() {
-        task = new BukkitRunnable() {
-            @Override
-            public void run() {
-                if(!area.getEntered().isEmpty()) {
-                    EvokerFangs ef = WORLD.spawn(WOODCUTTER,EvokerFangs.class);
-                    ef.getWorld().playSound(ef.getLocation(), Sound.ITEM_AXE_STRIP,0.1F,0);
-                    ef.setSilent(true);
-                } else {
-                    cancel();
-                    task = null;
-                }
-            }
-        }.runTaskTimer(CapitalismCraft.getInstance(),0,2);
-
-    }
 
 
     @EventHandler
     public void enterShop(AreaEnterEvent e) {
         if(!e.getArea().equals(area)) return;
-        if(task == null)
-            init();
+
     }
 
 
