@@ -37,8 +37,7 @@ public class UUIDFetcher {
 				return Bukkit.getOfflinePlayer(name).getUniqueId();
 			}
 		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage("§cYour server has no connection to the mojang servers or is runnig slow.");
-			Bukkit.getConsoleSender().sendMessage("§cTherefore the UUID cannot be parsed.");
+			Bukkit.getConsoleSender().sendMessage("§cMojang or server slow connection, impossible to parse uuid with name " + name);
 			return null;
 		}
 	}
@@ -60,8 +59,8 @@ public class UUIDFetcher {
 				return Bukkit.getOfflinePlayer(uuid).getName();
 			}
 		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage("§cYour server has no connection to the mojang servers or is runnig slow.");
-			Bukkit.getConsoleSender().sendMessage("§cTherefore the UUID cannot be parsed.");
+
+			Bukkit.getConsoleSender().sendMessage("§cMojang or server slow connection, impossible to parse uuid " + uuid);
 			return null;
 		}
 

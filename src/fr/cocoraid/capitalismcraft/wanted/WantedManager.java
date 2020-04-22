@@ -18,14 +18,15 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class Wanted extends LocalDatabase {
+public class WantedManager extends LocalDatabase {
 
     private CapitalismCraft instance;
-    public Wanted(CapitalismCraft instance) {
+    public WantedManager(CapitalismCraft instance) {
         super(instance,"wanted");
         this.instance = instance;
         // registerEvents();
@@ -56,16 +57,15 @@ public class Wanted extends LocalDatabase {
      *  end:
      *
      */
-    public boolean registerWanted(Player p, UUID target, int price, int day) {
+    public WantedPlayer registerWanted(Player p, UUID target, int price, int day) {
         int id = wanteds.size();
 
         long current = System.currentTimeMillis();
-        long end = current + (1000 * 60 * 60 * 24);
-        WantedPlayer wp = new WantedPlayer(id,p.getUniqueId(),target,current,end,price);
+        WantedPlayer wp = new WantedPlayer(id,p.getUniqueId(),target,current,day,price);
         save(wp);
         saveData();
 
-        return true;
+        return wp;
     }
 
     public void save(WantedPlayer wp) {
@@ -116,9 +116,15 @@ public class Wanted extends LocalDatabase {
 
             List<String> bannedString = section.getStringList("banned");
             List<UUID> banned = new ArrayList<>();
+
             bannedString.forEach(s -> banned.add(UUID.fromString(s)));
 
-            WantedPlayer wp = new WantedPlayer(Integer.valueOf(id),wanter,wanted,start,end,price);
+            long diff = end - start;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(diff);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            WantedPlayer wp = new WantedPlayer(Integer.valueOf(id),wanter,wanted,start, day, price);
             wp.setAcceptedBy(accepted);
             wp.setBanned(banned);
             wanteds.add(wp);
@@ -134,16 +140,18 @@ public class Wanted extends LocalDatabase {
         super.saveDatabase();
         for (WantedPlayer wanted : wanteds) {
             save(wanted);
-
         }
     }
 
 
     //HERE detect when player is killed, event
     private void registerEvents() {
-
     }
 
+
+    public List<WantedPlayer> getWanteds() {
+        return wanteds;
+    }
 
     public CapitalismCraft getInstance() {
         return instance;
